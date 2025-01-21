@@ -1,11 +1,6 @@
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import Sidebar from "./components/Sidebar";
 
 export default function RootLayout({
   children,
@@ -15,14 +10,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <meta name="viewport" content="..." />
+        </head>
         <body>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
+          <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
         </body>
       </html>
     </ClerkProvider>
