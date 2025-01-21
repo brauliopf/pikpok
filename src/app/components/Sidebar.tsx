@@ -1,6 +1,12 @@
 "use client";
 
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  SignOutButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 export default function Sidebar() {
   return (
@@ -9,7 +15,10 @@ export default function Sidebar() {
         <SignInButton />
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <div className="flex justify-between">
+          <UserButton />
+          <SignOutButton />
+        </div>
       </SignedIn>
       <button className="w-full mb-4 p-3 rounded hover:bg-gray-700 flex items-center gap-3">
         <svg
