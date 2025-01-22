@@ -7,9 +7,7 @@ import {
   SignOutButton,
   UserButton,
 } from "@clerk/nextjs";
-
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -21,8 +19,9 @@ import {
   SidebarMenuItem,
   SidebarFooter,
   SidebarHeader,
-} from "@/app/components/ui/sidebar";
+} from "@/components/ui/sidebar";
 // Reference: https://ui.shadcn.com/docs/components/sidebar
+import UserSignup from "./UserSignup";
 
 // Menu items.
 const items = [
@@ -58,6 +57,8 @@ export default function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>Modal Example (Dialog)</SidebarGroupLabel>
+          <UserSignup />
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
