@@ -7,7 +7,14 @@ import {
   SignOutButton,
   UserButton,
 } from "@clerk/nextjs";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+  CirclePlus,
+} from "lucide-react"; // https://lucide.dev/icons/
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +29,7 @@ import {
 } from "@/components/ui/sidebar";
 // Reference: https://ui.shadcn.com/docs/components/sidebar
 import UserSignup from "./UserSignup";
+import VideoUploadForm from "./VideoUploadForm";
 
 // Menu items.
 const items = [
@@ -29,11 +37,6 @@ const items = [
     title: "Home",
     url: "#",
     icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
   },
   {
     title: "Calendar",
@@ -62,6 +65,7 @@ export default function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <VideoUploadForm />
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
