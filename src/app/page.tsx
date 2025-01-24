@@ -1,10 +1,40 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useState } from "react";
+import { S3Client } from "@aws-sdk/client-s3";
+import { download } from "./actions/download";
+
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION || "us-east-1",
+});
 
 export default function Home() {
+  const [video, setVideo] = useState<string | null>(null);
+
+  const loadVideo = async () => {
+    const url = await download(
+      "videos/0f37ae3f-48df-4ac5-a465-a6880e7f0da2.mp4"
+    );
+    console.log("DOWNLOAD", url);
+    setVideo(url);
+  };
+
   return (
     <div className="flex">
+      <button onClick={loadVideo}>CLICK ME</button>
+      {video && (
+        <video
+          width="320"
+          height="240"
+          className="bg-red-400"
+          controls
+          preload="none"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      )}
       <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
           <Image

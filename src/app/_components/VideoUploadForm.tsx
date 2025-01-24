@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { CloudUpload } from "lucide-react";
-import { uploadVideoToS3 } from "../actions/videoUpload";
+import { uploadVideoToS3 } from "../actions/upload";
 
 const VideoUploadForm: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
