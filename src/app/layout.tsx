@@ -15,10 +15,10 @@ export default function RootLayout({
           <meta name="viewport" content="..." />
         </head>
         <body>
-          <SidebarProvider defaultOpen={false}>
+          <SidebarProvider open={true}>
             <AppSidebar />
             <main>
-              <SidebarTrigger />
+              {/* <SidebarTrigger /> */}
               {children}
             </main>
           </SidebarProvider>

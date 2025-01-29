@@ -57,11 +57,20 @@ const items = [
 
 export default function AppSidebar() {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar className="w-50">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Modal Example (Dialog)</SidebarGroupLabel>
-          <UserSignup />
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <div className="flex justify-between">
+              <UserButton />
+              <SignOutButton />
+            </div>
+          </SignedIn>
+        </SidebarGroup>
+        <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -77,6 +86,7 @@ export default function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
+            <UserSignup />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
