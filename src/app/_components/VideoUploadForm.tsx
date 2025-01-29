@@ -57,11 +57,10 @@ const VideoUploadForm: React.FC = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <SidebarMenuItem key="dialog">
+        <SidebarMenuItem key="dialog" className="">
           <SidebarMenuButton asChild>
-            <a href="#">
+            <a href="#" className="flex justify-center hover:bg-zinc-200">
               <CloudUpload />
-              <span>Upload</span>
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>

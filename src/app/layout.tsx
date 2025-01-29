@@ -15,12 +15,9 @@ export default function RootLayout({
           <meta name="viewport" content="..." />
         </head>
         <body>
-          <SidebarProvider open={true}>
+          <SidebarProvider>
             <AppSidebar />
-            <main>
-              {/* <SidebarTrigger /> */}
-              {children}
-            </main>
+            <main>{children}</main>
           </SidebarProvider>
         </body>
       </html>
