@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Footer from "@/app/_components/Footer";
 import VideoCard from "@/app/_components/VideoCard";
 import { getAllVideos, downloadMultipleFiles } from "./actions/download";
 
@@ -37,15 +36,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex">
-      <div className="min-h-screen flex justify-center items-center border-green-500 border-2 fixed top-0 left-0 right-0 bottom-0">
-        <main className="flex flex-col gap-10 items-center mb-10 border-red-600 border-2">
-          {VObjs.map((video, index) => {
-            return <VideoCard src={video.url} key={index} />;
-          })}
-        </main>
-        <Footer />
-      </div>
+    <div className="flex min-h-screen justify-center items-center fixed left-0 right-0 overflow-auto">
+      <main className="flex flex-col gap-10 items-center mb-10 max-h-screen">
+        {VObjs.map((video, index) => {
+          return <VideoCard src={video.url} key={index} />;
+        })}
+      </main>
     </div>
   );
 }
