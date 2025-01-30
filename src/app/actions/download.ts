@@ -45,7 +45,6 @@ export async function getAllVideos(): Promise<string[]> {
 export async function downloadMultipleFiles(
   fileKeys: string[]
 ): Promise<{ fileKey: string; url: string }[]> {
-  console.log("ENTERING DOWNLOAD MANY");
   try {
     const downloadPromises = fileKeys.map(async (fileKey) => {
       try {
@@ -62,7 +61,6 @@ export async function downloadMultipleFiles(
     });
 
     const results = await Promise.all(downloadPromises);
-    console.log("DOWNLOAD!!!", results);
 
     return results;
   } catch (error) {
