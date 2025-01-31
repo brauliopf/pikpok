@@ -1,24 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import VideoCard from "@/app/_components/VideoCard";
-import { getAllVideos, downloadMultipleFiles } from "./actions/download";
+import VideoCard from "@/app/ui/VideoCard";
+import { downloadMultipleFiles } from "./actions/download";
 
 export default function Home() {
-  const [videos, setVideos] = useState<string[]>([
-    "videos/0f37ae3f-48df-4ac5-a465-a6880e7f0da2.mp4",
-  ]);
-
-  // useEffect(() => {
-  //   const loadVideos = async () => {
-  //     const loader = await getAllVideos();
-  //     setVideos(loader);
-  //   };
-
-  //   loadVideos();
-  // }, []);
-
   const [VObjs, setVObjs] = useState<{ fileKey: string; url: string }[]>([]);
+  const [Cus, SetCus] = useState<any[]>([]);
 
   useEffect(() => {
     const loadVObjs = async () => {
@@ -27,12 +15,20 @@ export default function Home() {
         "videos/bb3a8541-7cef-4bc7-ba62-550a9b49e8cb.mp4",
         "videos/a648e50e-43b7-4061-a115-9d7d6a82d4fe.mp4",
       ];
-      console.log("PAGE > DOWNLOAD MANY");
       const loader = await downloadMultipleFiles(fileKeys);
       setVObjs(loader);
     };
 
     loadVObjs();
+  }, []);
+
+  useEffect(() => {
+    const loadCustomers = async () => {
+      const response = await fetch("/api/users");
+      const customers = await response.json();
+      SetCus(customers);
+    };
+    loadCustomers();
   }, []);
 
   return (
