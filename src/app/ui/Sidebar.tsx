@@ -11,11 +11,20 @@ import {
 } from "@/components/ui/sidebar";
 // Reference: https://ui.shadcn.com/docs/components/sidebar
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
 import VideoUploadForm from "./VideoUploadForm";
+import { useEffect } from "react";
 
 export default function AppSidebar() {
+  const { isSignedIn, user, isLoaded } = useUser();
+
   return (
     <Sidebar className="w-50">
       <SidebarContent>

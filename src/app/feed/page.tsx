@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import VideoCard from "@/app/ui/VideoCard";
-import { downloadMultipleFiles } from "./actions/download";
+import { downloadMultipleFiles } from "../actions/download";
 
 export default function Home() {
   const [VObjs, setVObjs] = useState<{ fileKey: string; url: string }[]>([]);
@@ -20,15 +20,6 @@ export default function Home() {
     };
 
     loadVObjs();
-  }, []);
-
-  useEffect(() => {
-    const loadCustomers = async () => {
-      const response = await fetch("/api/users");
-      const customers = await response.json();
-      SetCus(customers);
-    };
-    loadCustomers();
   }, []);
 
   return (
