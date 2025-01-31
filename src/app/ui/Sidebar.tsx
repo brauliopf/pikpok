@@ -10,15 +10,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 // Reference: https://ui.shadcn.com/docs/components/sidebar
-import { LogIn, Home } from "lucide-react"; // https://lucide.dev/icons/
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
 import VideoUploadForm from "./VideoUploadForm";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  SignOutButton,
-} from "@clerk/nextjs";
 
 export default function AppSidebar() {
   return (
@@ -29,30 +24,51 @@ export default function AppSidebar() {
           <hr className="my-4 border-t border-gray-200 w-full" />
         </SidebarGroup>
         <SidebarGroup>
-          <SignedOut>
-            <SignInButton>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex justify-center hover:bg-zinc-200">
-                  <LogIn />
-                </a>
-              </SidebarMenuButton>
-            </SignInButton>
-          </SignedOut>
-          <SignedIn>
-            <div className="flex justify-center hover:none">
-              <UserButton />
-            </div>
-          </SignedIn>
-        </SidebarGroup>
-        <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex justify-center hover:bg-zinc-200">
-                  <Home />
-                </a>
-              </SidebarMenuButton>
-              <VideoUploadForm />
+              <SidebarMenuItem>
+                <SignedOut>
+                  <SignInButton>
+                    <SidebarMenuButton asChild>
+                      <a
+                        href="#"
+                        className="flex justify-center hover:bg-zinc-200 px-2"
+                      >
+                        <LogIn />
+                      </a>
+                    </SidebarMenuButton>
+                  </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <SidebarMenuButton>
+                    <ul className="flex justify-center hover:none px-2">
+                      <UserButton />
+                    </ul>
+                  </SidebarMenuButton>
+                </SignedIn>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href="#" className="flex justify-center hover:bg-zinc-200">
+                    <Home />
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <Dialog>
+                <DialogTrigger>
+                  <SidebarMenuItem key="dialog">
+                    <SidebarMenuButton asChild>
+                      <a
+                        href="#"
+                        className="flex justify-center hover:bg-zinc-200"
+                      >
+                        <CloudUpload />
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </DialogTrigger>
+                <VideoUploadForm />
+              </Dialog>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

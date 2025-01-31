@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import {
-  Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
-import { CloudUpload } from "lucide-react";
 import { uploadVideoToS3 } from "../actions/upload";
 
 const VideoUploadForm: React.FC = () => {
@@ -53,47 +47,36 @@ const VideoUploadForm: React.FC = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <SidebarMenuItem key="dialog" className="">
-          <SidebarMenuButton asChild>
-            <a href="#" className="flex justify-center hover:bg-zinc-200">
-              <CloudUpload />
-            </a>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>File Upload</DialogTitle>
-          <DialogDescription>Select Video to Upload (.mp4)</DialogDescription>
-        </DialogHeader>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>File Upload</DialogTitle>
+        <DialogDescription>Select Video to Upload (.mp4)</DialogDescription>
+      </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <input type="file" accept=".mp4" onChange={handleFileChange} />
-          <Button type="submit">Upload Video</Button>
-        </form>
+      <form onSubmit={handleSubmit}>
+        <input type="file" accept=".mp4" onChange={handleFileChange} />
+        <Button type="submit">Upload Video</Button>
+      </form>
 
-        <div>
-          <h3>Selected File Details</h3>
-          <p>
-            <strong>Title:</strong>{" "}
-            {selectedFile ? selectedFile.name : "No file selected"}
-          </p>
-          <p>
-            <strong>Size:</strong>{" "}
-            {selectedFile
-              ? `${(selectedFile.size / 10 ** 6).toFixed(2)} MB`
-              : "––"}
-          </p>
-          <label htmlFor="notes">Notes:</label>
-          <textarea
-            id="notes"
-            placeholder="Add notes about the video..."
-          ></textarea>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <div>
+        <h3>Selected File Details</h3>
+        <p>
+          <strong>Title:</strong>{" "}
+          {selectedFile ? selectedFile.name : "No file selected"}
+        </p>
+        <p>
+          <strong>Size:</strong>{" "}
+          {selectedFile
+            ? `${(selectedFile.size / 10 ** 6).toFixed(2)} MB`
+            : "––"}
+        </p>
+        <label htmlFor="notes">Notes:</label>
+        <textarea
+          id="notes"
+          placeholder="Add notes about the video..."
+        ></textarea>
+      </div>
+    </DialogContent>
   );
 };
 
