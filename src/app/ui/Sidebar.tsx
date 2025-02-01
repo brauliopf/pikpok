@@ -19,7 +19,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
-import VideoUploadForm from "./VideoUploadForm";
+import VideoUploadForm from "./video-upload-form";
 import { useEffect } from "react";
 
 export default function AppSidebar() {

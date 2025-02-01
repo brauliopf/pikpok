@@ -1,8 +1,8 @@
 import { ClerkProvider } from "@clerk/nextjs"; // https://clerk.com/docs/quickstarts/nextjs#add-clerk-provider-and-clerk-components-to-your-app
 import "./globals.css";
-import AppSidebar from "./ui/Sidebar";
+import AppSidebar from "./ui/sidebar";
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
-import Footer from "@/app/ui/Footer";
+import Footer from "@/app/ui/footer";
 
 export default function RootLayout({
   children,
