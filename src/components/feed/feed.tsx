@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import VideoCard from "../ui/video-card";
-import { downloadMultipleFiles } from "../actions/download";
+import VideoCard from "./video-card";
+import { downloadMultipleFiles } from "../../actions/video_loader";
 
 export default function Feed() {
   const [VObjs, setVObjs] = useState<{ fileKey: string; url: string }[]>([]);
-  const [Cus, SetCus] = useState<any[]>([]);
 
   useEffect(() => {
     const loadVObjs = async () => {

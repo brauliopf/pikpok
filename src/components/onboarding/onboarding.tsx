@@ -1,7 +1,7 @@
 export default function Onboarding() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
     const jsonData = Object.fromEntries(formData);
     const response = await fetch("/api/users/clerk", {
       method: "POST",

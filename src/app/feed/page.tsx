@@ -1,6 +1,6 @@
 "use client";
 
-import Feed from "../ui/feed";
+import Feed from "@/components/feed/feed";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
@@ -16,6 +16,10 @@ export default function FeedPage() {
     };
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    console.log("DATA:", data);
+  }, [data]);
 
   return (
     <div className="flex min-h-screen justify-center items-center fixed left-0 right-0 overflow-auto">

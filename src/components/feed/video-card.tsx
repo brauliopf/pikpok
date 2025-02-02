@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { download } from "@/app/actions/download";
+import { download } from "@/actions/video_loader";
 
 export default function VideoCard({ src }: { src: string }) {
   const [video, setVideo] = useState<string | null>(null);

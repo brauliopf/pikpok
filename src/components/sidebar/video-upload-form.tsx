@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { uploadVideoToS3 } from "../actions/upload";
+import { uploadVideoToS3 } from "../../actions/video_loader";
 
 const VideoUploadForm: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
