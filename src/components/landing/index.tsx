@@ -1,4 +1,6 @@
-export default function Onboarding() {
+"use client";
+
+export default function LandingPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);

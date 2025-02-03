@@ -1,6 +1,6 @@
 "use client";
 
-import Feed from "@/components/feed/feed";
+import Feed from "@/components/feed";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 

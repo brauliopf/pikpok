@@ -3,7 +3,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
-const isLandingRoute = createRouteMatcher(["/landing"]);
+const isLandingRoute = createRouteMatcher(["/landing", "/api/webhooks(.*)"]);
 // TODO: add specific video URL to public routes
 const isFeedRoute = createRouteMatcher(["/feed"]);
 
@@ -44,6 +44,9 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
     const landingUrl = new URL("/landing", req.url);
     return NextResponse.redirect(landingUrl);
   }
+
+  // finally
+  return NextResponse.next();
 });
 
 export const config = {

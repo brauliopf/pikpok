@@ -10,23 +10,18 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 
-export const Playing_with_neon = pgTable("playing_with_neon", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  value: decimal("value"),
-});
-
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   email: text("email").notNull().unique(),
-  name: text("name").notNull(),
-  lastName: text("lastname"),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name"),
   country: text("country"),
   age: integer("age"),
   genderMale: boolean("gender_male"),
+  profileImageURL: text("profile_image_url"),
 });
 
-export const videos = pgTable("tables", {
+export const videos = pgTable("videos", {
   id: uuid("id").defaultRandom().primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
