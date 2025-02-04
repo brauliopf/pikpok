@@ -1,8 +1,3 @@
-"use client";
-
-import { Suspense, useEffect, useState } from "react";
-import { download } from "@/lib/s3";
-
 export default function VideoCard({ video }: { video: string }) {
   return (
     <video
