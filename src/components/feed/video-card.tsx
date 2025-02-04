@@ -1,15 +1,9 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { download } from "@/app/actions/download";
+import { download } from "@/lib/s3";
 
-export default function VideoCard({ src }: { src: string }) {
-  const [video, setVideo] = useState<string | null>(null);
-
-  useEffect(() => {
-    setVideo(src);
-  }, []);
-
+export default function VideoCard({ video }: { video: string }) {
   return (
     <video
       width="320"

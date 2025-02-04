@@ -1,6 +1,41 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// reference (clerk onboarding): https://clerk.com/docs/references/nextjs/add-onboarding-flow
 
-export default clerkMiddleware();
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
+
+const isWebhookRoute = createRouteMatcher(["/api/users/webhooks(.*)"]);
+
+const isLandingRoute = createRouteMatcher(["/landing"]);
+// TODO: add specific video URL to public routes
+const isFeedRoute = createRouteMatcher(["/feed"]);
+
+// Configure access to routes. Retrieve claims directly from the session and redirect user accordingly.
+export default clerkMiddleware(async (auth, req: NextRequest) => {
+  const { userId, sessionClaims, redirectToSignIn } = await auth();
+
+  // let webhooks pass
+  if (isWebhookRoute(req)) return NextResponse.next();
+
+  // Not logged in. Redirect to landing page. If landing, be there.
+  if (!userId) {
+    if (!isLandingRoute(req)) {
+      const landingUrl = new URL("/landing", req.url);
+      return NextResponse.redirect(landingUrl);
+    } else {
+      return NextResponse.next();
+    }
+  }
+
+  // Logged in. If landing, next. If not landing, route to feed.
+  if (userId) {
+    if (isLandingRoute(req) || isFeedRoute(req)) {
+      return NextResponse.next();
+    } else {
+      const feedUrl = new URL("/feed", req.url);
+      return NextResponse.redirect(feedUrl);
+    }
+  }
+});
 
 export const config = {
   matcher: [
