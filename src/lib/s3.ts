@@ -10,13 +10,6 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
 
-interface FileUpload {
-  name: string;
-  type: string;
-  size: number;
-  buffer: Buffer;
-}
-
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -52,7 +45,11 @@ export async function downloadMultipleFiles(
   }
 }
 
-export async function uploadVideoToS3(formData: FormData) {
+export async function uploadVideoToS3(formData: FormData): Promise<{
+  success: boolean;
+  filename?: string;
+  error?: string;
+}> {
   try {
     const file = formData.get("video") as File;
     if (!file) {
@@ -91,84 +88,10 @@ export async function uploadVideoToS3(formData: FormData) {
     return {
       success: true,
       filename: filename,
+      error: "",
     };
   } catch (error) {
     console.error("S3 Upload Error:", error);
     return { success: false, error: "Failed to upload video" };
-  }
-}
-
-export async function getFromS3(key: string) {
-  try {
-    const command = new GetObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: key,
-    });
-
-    const response = await s3Client.send(command);
-
-    return {
-      success: true,
-      data: await response.Body?.transformToByteArray(),
-    };
-  } catch (error) {
-    console.error("Error getting from S3:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown Error",
-    };
-  }
-}
-
-export async function deleteFromS3(key: string) {
-  try {
-    const command = new DeleteObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: key,
-    });
-
-    await s3Client.send(command);
-    return { success: true };
-  } catch (error) {
-    console.error("Error deleting from S3:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown Error",
-    };
-  }
-}
-
-export async function download(fileKey: string): Promise<string> {
-  try {
-    const command = new GetObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME!,
-      Key: fileKey,
-    });
-
-    const url = await getSignedUrl(s3Client, command);
-
-    return url;
-  } catch (error) {
-    console.error("Error fetching image from S3:", error);
-    return "Error fetching image from S3";
-  }
-}
-
-export async function getAllVideos(): Promise<string[]> {
-  try {
-    const command = new GetObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME!,
-      Key: "videos/0f37ae3f-48df-4ac5-a465-a6880e7f0da2.mp4",
-    });
-
-    const url = await getSignedUrl(s3Client, command);
-
-    let output = [];
-    output.push(url);
-
-    return output;
-  } catch (error) {
-    console.error("Error fetching image from S3:", error);
-    return ["Error fetching image from S3"];
   }
 }

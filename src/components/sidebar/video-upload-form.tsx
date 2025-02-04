@@ -1,15 +1,10 @@
 import { useState } from "react";
-import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { SignIn, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { uploadVideoToS3 } from "../../lib/s3";
 import { useToast } from "@/hooks/use-toast";
+import { createVideo } from "@/db/mutations";
 
 const VideoUploadForm: React.FC = () => {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -34,14 +29,16 @@ const VideoUploadForm: React.FC = () => {
 
     setUploading(true);
 
+    let response;
+    let video;
     try {
       const formData = new FormData();
       formData.append("video", selectedFile);
 
-      const response = await uploadVideoToS3(formData);
+      response = await uploadVideoToS3(formData);
 
       if (response.success) {
-        console.log("RESPOSTA SUCCESS!!!", response);
+        // Actions confirmation
         toast({
           title: "Success",
           description: "Video uploaded successfully",
@@ -53,7 +50,15 @@ const VideoUploadForm: React.FC = () => {
           'input[type="file"]'
         ) as HTMLInputElement;
         if (fileInput) fileInput.value = "";
+
+        // Add video to application DB
+        video = await createVideo({
+          title: selectedFile.name || "untitled",
+          s3Key: response?.filename || "default_s3key",
+          userId: "87c56f5f-e7fe-4938-9d83-7130c3f2d2ce",
+        });
       } else {
+        // Error Feedback
         toast({
           title: "Error",
           description: response.error || "Upload failed",
@@ -69,16 +74,12 @@ const VideoUploadForm: React.FC = () => {
       });
     } finally {
       setUploading(false);
+      console.log("VIDEO", video);
     }
   };
 
-  return user ? (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>File Upload</DialogTitle>
-        <DialogDescription>Select Video to Upload (.mp4)</DialogDescription>
-      </DialogHeader>
-
+  return (
+    <div>
       <div className="space-y-4">
         <input
           type="file"
@@ -114,19 +115,7 @@ const VideoUploadForm: React.FC = () => {
           placeholder="Add notes about the video..."
         ></textarea>
       </div>
-    </DialogContent>
-  ) : (
-    <DialogContent>
-      <div style={{ display: "none" }}>
-        <DialogHeader>
-          <DialogTitle>Login Form</DialogTitle>
-          <DialogDescription>Login to upload your content</DialogDescription>
-        </DialogHeader>
-      </div>
-      <div className="justify-center">
-        <SignIn />
-      </div>
-    </DialogContent>
+    </div>
   );
 };
 

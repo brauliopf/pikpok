@@ -14,7 +14,7 @@ export default function FeedPage() {
       const users = await res.json();
       setData(users);
     };
-    fetchUsers();
+    // fetchUsers();
   }, []);
 
   useEffect(() => {

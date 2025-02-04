@@ -1,10 +1,10 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "../users/actions";
-import { profile } from "console";
+import { createUser } from "@/db/mutations";
 
 export async function POST(req: Request) {
+  console.log("USER CREATED WEBHOOK");
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
   if (!SIGNING_SECRET) {

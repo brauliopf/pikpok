@@ -1,0 +1,28 @@
+import { db } from ".";
+import { users, videos } from "./schema";
+import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
+
+type SelectUser = InferSelectModel<typeof users>;
+type InsertUser = InferInsertModel<typeof users>;
+
+type SelectVideo = InferSelectModel<typeof videos>;
+type InsertVideo = InferInsertModel<typeof videos>;
+
+export async function createUser(data: InsertUser): Promise<{
+  status: number;
+  data: SelectUser;
+}> {
+  const result = await db.insert(users).values(data).execute();
+  const newUser = result.rows[0];
+  return { status: 200, data: newUser };
+}
+
+export async function createVideo(data: InsertVideo): Promise<{
+  status: number;
+  data: SelectVideo;
+}> {
+  console.log("CREATEVIDEO", data);
+  const result = await db.insert(videos).values(data).execute();
+  const newVideo = result.rows[0];
+  return { status: 200, data: newVideo };
+}

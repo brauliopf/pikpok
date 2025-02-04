@@ -23,9 +23,9 @@ export const users = pgTable("users", {
 
 export const videos = pgTable("videos", {
   id: uuid("id").defaultRandom().primaryKey(),
+  s3Key: text("s3_key").notNull(),
   title: text("title").notNull(),
   description: text("description"),
-  s3Key: text("s3_key").notNull(),
   metadata: jsonb("metadata"), // tags, categories, etc.
   viewCount: integer("view_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),

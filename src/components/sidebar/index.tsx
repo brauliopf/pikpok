@@ -10,12 +10,27 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 // Reference: https://ui.shadcn.com/docs/components/sidebar
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
 import VideoUploadForm from "./video-upload-form";
+import { uploadVideoToS3 } from "../../lib/s3";
+import { useUser } from "@clerk/nextjs";
+
+type UploadVideoAction = (
+  formData: FormData
+) => Promise<{ success: boolean; error?: string; filename?: string }>;
 
 export default function AppSidebar() {
+  const { isSignedIn, user, isLoaded } = useUser();
+
   return (
     <Sidebar className="w-50">
       <SidebarContent>
@@ -54,21 +69,34 @@ export default function AppSidebar() {
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <Dialog>
-                <DialogTrigger>
-                  <SidebarMenuItem key="dialog">
-                    <SidebarMenuButton asChild>
-                      <a
-                        href="#"
-                        className="flex justify-center hover:bg-zinc-200"
-                      >
-                        <CloudUpload />
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </DialogTrigger>
-                <VideoUploadForm />
-              </Dialog>
+              {user ? (
+                <Dialog>
+                  <DialogTrigger>
+                    <SidebarMenuItem key="dialog">
+                      <SidebarMenuButton asChild>
+                        <a
+                          href="#"
+                          className="flex justify-center hover:bg-zinc-200"
+                        >
+                          <CloudUpload />
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>File Upload</DialogTitle>
+                      <DialogDescription>
+                        Select Video to Upload (.mp4)
+                      </DialogDescription>
+                    </DialogHeader>
+                    <VideoUploadForm />
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                ""
+                // <LoginForm />
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

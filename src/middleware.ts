@@ -3,7 +3,9 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
-const isLandingRoute = createRouteMatcher(["/landing", "/api/webhooks(.*)"]);
+const isWebhookRoute = createRouteMatcher(["/api/users/webhooks(.*)"]);
+
+const isLandingRoute = createRouteMatcher(["/landing"]);
 // TODO: add specific video URL to public routes
 const isFeedRoute = createRouteMatcher(["/feed"]);
 
@@ -11,42 +13,28 @@ const isFeedRoute = createRouteMatcher(["/feed"]);
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims, redirectToSignIn } = await auth();
 
-  if (userId) {
-    if (!sessionClaims?.metadata?.onboarded) {
-      if (!isLandingRoute(req)) {
-        const landingUrl = new URL("/landing", req.url);
-        return NextResponse.redirect(landingUrl);
-      } else {
-        return NextResponse.next();
-      }
+  // let webhooks pass
+  if (isWebhookRoute(req)) return NextResponse.next();
+
+  // Not logged in. Redirect to landing page. If landing, be there.
+  if (!userId) {
+    if (!isLandingRoute(req)) {
+      const landingUrl = new URL("/landing", req.url);
+      return NextResponse.redirect(landingUrl);
     } else {
       return NextResponse.next();
     }
   }
 
-  if (!userId && isLandingRoute(req)) {
-    return NextResponse.next();
-  } else if (!userId && !isLandingRoute(req)) {
-    const landingUrl = new URL("/landing", req.url);
-    return NextResponse.redirect(landingUrl);
+  // Logged in. If landing, next. If not landing, route to feed.
+  if (userId) {
+    if (isLandingRoute(req) || isFeedRoute(req)) {
+      return NextResponse.next();
+    } else {
+      const feedUrl = new URL("/feed", req.url);
+      return NextResponse.redirect(feedUrl);
+    }
   }
-
-  // For logged-in users visiting /landing or /feed, don't redirect
-  if (
-    isLandingRoute(req) ||
-    (sessionClaims?.metadata?.onboarded && isFeedRoute(req))
-  ) {
-    return NextResponse.next();
-  }
-
-  // redirect to landing page if no user or not onboarded
-  if (!userId || !sessionClaims?.metadata?.onboarded) {
-    const landingUrl = new URL("/landing", req.url);
-    return NextResponse.redirect(landingUrl);
-  }
-
-  // finally
-  return NextResponse.next();
 });
 
 export const config = {
