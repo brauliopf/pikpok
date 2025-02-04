@@ -54,7 +54,7 @@ export async function POST(req: Request) {
    * body === evt.data stringfied
    */
   // @ts-ignore
-  const { first_name, last_name, profile_image_url, image_url } = evt.data;
+  const { id, first_name, last_name, profile_image_url, image_url } = evt.data;
   // @ts-ignore
   const temp = evt.data.email_addresses;
   const { email_address } = temp && temp[0];
@@ -63,6 +63,7 @@ export async function POST(req: Request) {
   let user;
   if (eventType == "user.created") {
     user = await createUser({
+      clerk_id: id!,
       email: email_address,
       firstName: first_name,
       lastName: last_name,

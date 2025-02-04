@@ -55,7 +55,7 @@ const VideoUploadForm: React.FC = () => {
         video = await createVideo({
           title: selectedFile.name || "untitled",
           s3Key: response?.filename || "default_s3key",
-          userId: "87c56f5f-e7fe-4938-9d83-7130c3f2d2ce",
+          clerkId: user!.id,
         });
       } else {
         // Error Feedback
@@ -74,7 +74,6 @@ const VideoUploadForm: React.FC = () => {
       });
     } finally {
       setUploading(false);
-      console.log("VIDEO", video);
     }
   };
 
