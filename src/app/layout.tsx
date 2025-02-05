@@ -18,14 +18,12 @@ export default function RootLayout({
         </head>
         <body>
           <div className="flex flex-col min-h-screen">
-            <header className="w-full bg-white">
-              <div className="h-8 px-4 flex items-center"></div>
-            </header>
-            <div className="flex">
+            <header className="w-full py-2 bg-white"></header>
+            <div className="flex flex-row">
               <SidebarProvider>
                 <AppSidebar />
               </SidebarProvider>
-              <main className="">{children}</main>
+              <main className="w-full">{children}</main>
               <Toaster />
             </div>
             <Footer />

@@ -7,12 +7,17 @@ export default function Landing() {
   const { isSignedIn, user, isLoaded } = useUser();
 
   return (
-    <div className="flex min-h-screen justify-center items-center fixed left-0 right-0">
-      <main className="flex flex-row gap-10 items-center mb-10 max-h-screen">
-        <div className="w-400">
-          <span>TikTok-style welcome page</span>
+    <div className="flex flex-1 left-0 right-0 top-0 bottom-0 h-screen overflow-y-auto">
+      <main className="flex flex-1 flex-row gap-20 items-center mx-auto">
+        <div className="w-2/5 ml-20">
+          <span>TikTok-style welcome page.</span>
+          <ul>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+          </ul>
         </div>
-        <div className="overflow-auto p-10">
+        <div className="h-screen">
           <Feed />
         </div>
       </main>

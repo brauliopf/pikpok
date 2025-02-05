@@ -1,14 +1,13 @@
-// import { db } from ".";
-// import { users, videos } from "./schema";
-// import { type InferSelectModel } from "drizzle-orm";
+import { db } from ".";
+import { videos } from "./schema";
+import { type InferSelectModel } from "drizzle-orm";
 
-// type SelectUser = InferSelectModel<typeof users>;
+type SelectVideo = InferSelectModel<typeof videos>;
 
-// export async function getUsers(data: SelectUser[]): Promise<{
-//   status: number;
-//   data: SelectUser[];
-// }> {
-//   const result = await db.select(users).execute();
-//   const newUser = result.rows[0];
-//   return { status: 200, data: newUser };
-// }
+export async function getVideos(): Promise<{
+  status: number;
+  data: { s3Key: string }[];
+}> {
+  const result = await db.select({ s3Key: videos.s3Key }).from(videos);
+  return { status: 200, data: result };
+}
