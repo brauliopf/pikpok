@@ -15,6 +15,7 @@ export default function RootLayout({
       <html lang="en">
         <head>
           <meta name="viewport" content="..." />
+          <link rel="icon" href="/favicon.ico" />
         </head>
         <body>
           <div className="flex flex-col min-h-screen">
