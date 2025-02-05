@@ -4,8 +4,8 @@ import { downloadMultipleFiles } from "@/lib/s3";
 
 export default async function FeedPage() {
   const { status, data: localVideos } = await getVideos({
-    limit: 2,
-    offset: 4,
+    limit: 3,
+    offset: 0,
   });
   const s3Videos = await downloadMultipleFiles(localVideos.map((v) => v.s3Key));
 
