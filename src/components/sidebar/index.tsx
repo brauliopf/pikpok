@@ -64,7 +64,10 @@ export default function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="#" className="flex justify-center hover:bg-zinc-200">
+                  <a
+                    href="/feed"
+                    className="flex justify-center hover:bg-zinc-200"
+                  >
                     <Home />
                   </a>
                 </SidebarMenuButton>
