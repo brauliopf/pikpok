@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const isWebhookRoute = createRouteMatcher(["/api/users/webhooks(.*)"]);
 
-const isLandingRoute = createRouteMatcher(["/landing"]);
+const isPublicRoute = createRouteMatcher(["/landing"]);
 // TODO: add specific video URL to public routes
 const isFeedRoute = createRouteMatcher(["/feed"]);
 
@@ -18,7 +18,7 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   // Not logged in. Redirect to landing page. If landing, be there.
   if (!userId) {
-    if (!isLandingRoute(req)) {
+    if (!isPublicRoute(req)) {
       const landingUrl = new URL("/landing", req.url);
       return NextResponse.redirect(landingUrl);
     } else {
@@ -26,13 +26,20 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
     }
   }
 
-  // Logged in. If landing, next. If not landing, route to feed.
+  // Logged in. If not onboarded, go to onboarding (and be there). If onboarded, route to feed.
   if (userId) {
-    if (isLandingRoute(req) || isFeedRoute(req)) {
-      return NextResponse.next();
-    } else {
+    if (!sessionClaims?.metadata?.onboarded) {
+      if (req.nextUrl.pathname == "/onboarding") {
+        return NextResponse.next();
+      } else {
+        const onboardingUrl = new URL("/onboarding", req.url);
+        return NextResponse.redirect(onboardingUrl);
+      }
+    } else if (!isFeedRoute(req)) {
       const feedUrl = new URL("/feed", req.url);
       return NextResponse.redirect(feedUrl);
+    } else {
+      return NextResponse.next();
     }
   }
 });
