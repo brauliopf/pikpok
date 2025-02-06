@@ -43,7 +43,6 @@ const Feed: React.FC<FeedProps> = ({ initialVideos }) => {
           return <VideoCard video={video} key={index} />;
         })}
       <div ref={ref}>Loading...</div>
-      {/* <button onClick={loadMoreVideos}>Load more</button> */}
     </div>
   );
 };
