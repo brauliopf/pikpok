@@ -13,7 +13,7 @@ interface feedProps {
   initialVideos: string[];
 }
 
-const feed: React.FC<feedProps> = ({ initialVideos }) => {
+const Feed: React.FC<feedProps> = ({ initialVideos }) => {
   const [offset, setOffset] = useState(NUMBER_OF_VIDEOS_TO_FETCH);
   const [videos, setVideos] = useState<string[]>(initialVideos);
   const { ref, inView } = useInView();
@@ -45,4 +45,4 @@ const feed: React.FC<feedProps> = ({ initialVideos }) => {
   );
 };
 
-export default feed;
+export default Feed;

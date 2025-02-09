@@ -1,22 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { uploadVideoToS3 } from "../lib/s3";
 import { useToast } from "@/hooks/use-toast";
 import { createVideo } from "@/db/mutations";
 import { useRouter } from "next/navigation";
-import { VideoMetadata } from "@/types/video";
 import { pushVideoQueue } from "@/lib/videoProcessing";
 
 const VideoUploadForm: React.FC = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user } = useUser();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [processingStatus, setProcessingStatus] = useState<string>("");
   const { toast } = useToast();
-  const router = useRouter();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

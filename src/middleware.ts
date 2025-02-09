@@ -11,7 +11,7 @@ const isFeedRoute = createRouteMatcher(["/feed"]);
 
 // Configure access to routes. Retrieve claims directly from the session and redirect user accordingly.
 export default clerkMiddleware(async (auth, req: NextRequest) => {
-  const { userId, sessionClaims, redirectToSignIn } = await auth();
+  const { userId, sessionClaims } = await auth();
 
   // let webhooks pass
   if (isWebhookRoute(req)) return NextResponse.next();

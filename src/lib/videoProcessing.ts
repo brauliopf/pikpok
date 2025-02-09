@@ -23,7 +23,7 @@ export async function processNextVideo() {
   try {
     console.log("PROCESSING VIDEO", video);
   } catch (error) {
-    console.log("can't find video");
+    console.log("can't find video", error);
   }
 }
 
