@@ -21,7 +21,9 @@ export async function processNextVideo() {
   await redis.rpush("processingQueue", video);
 
   try {
-    console.log("PROCESSING VIDEO", video)
+    console.log("PROCESSING VIDEO", video);
+  } catch (error) {
+    console.log("can't find video");
   }
 }
 

@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import Feed from "@/components/feed";
+import Feed from "@/components/Feed";
 import { getVideos } from "@/db/query";
 import { downloadMultipleFiles } from "@/lib/s3";
 
