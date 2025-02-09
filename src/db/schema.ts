@@ -1,5 +1,6 @@
 import {
   pgTable,
+  pgEnum,
   serial,
   text,
   integer,
@@ -12,6 +13,7 @@ import {
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
   clerk_id: text("clerk_id").notNull().unique(),
   email: text("email").notNull().unique(),
   firstName: text("first_name").notNull(),
@@ -22,10 +24,19 @@ export const users = pgTable("users", {
   profileImageURL: text("profile_image_url"),
 });
 
+export const videoStatusEnum = pgEnum("status", [
+  "created",
+  "pending",
+  "processing",
+  "completed",
+  "failed",
+]);
+
 export const videos = pgTable("videos", {
   id: uuid("id").defaultRandom().primaryKey(),
   s3Key: text("s3_key").notNull(),
   title: text("title").notNull(),
+  status: videoStatusEnum().default("created").notNull(),
   description: text("description"),
   metadata: jsonb("metadata"), // tags, categories, etc.
   viewCount: integer("view_count").default(0),

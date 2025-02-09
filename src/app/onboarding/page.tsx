@@ -1,11 +1,12 @@
 "use client";
+// ref: https://clerk.com/blog/add-onboarding-flow-for-your-application-with-clerk
 
 import * as React from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { completeOnboarding } from "../actions";
 
-export default function Onboarding() {
+export default function onboarding() {
   const { user } = useUser();
   const router = useRouter();
 
