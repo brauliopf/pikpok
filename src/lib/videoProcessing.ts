@@ -8,16 +8,17 @@ export const pushVideoQueue = async (videoData: {
   title: string;
   clerkId: string;
   createdAt: Date;
+  status: string;
 }) => {
-  await redis.rpush("processingQueue", videoData);
+  await redis.rpush("pendingQueue", videoData);
 };
 
-// export async function processNextVideo() {
-//   const videoJson = await redis.rpop("video:queue");
-//   if (!videoJson) return null;
+export async function processNextVideo() {
+  const videoJson = await redis.lpop("video:queue");
+  if (!videoJson) return null;
 
-//   const video = JSON.parse(videoJson);
-//   await redis.hset(`video:${video.id}`, { status: "processing" });
+  const video = JSON.parse(videoJson);
+  await redis.hset(`video:${video.id}`, { status: "processing" });
 
 //   try {
 //     // Process video...

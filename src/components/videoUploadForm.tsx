@@ -69,6 +69,7 @@ const VideoUploadForm: React.FC = () => {
         title: selectedFile.name,
         clerkId: user!.id,
         createdAt: video.data.createdAt!,
+        status: "pending",
       });
 
       // Provide feedback

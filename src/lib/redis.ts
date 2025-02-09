@@ -26,3 +26,9 @@ export const redis = new Redis({
 //   const videoData = JSON.parse(nextVideo);
 //   // process video...
 // }
+
+// HASH
+// // Set
+// await redis.HSET('video-queue', videoId, JSON.stringify(videoData));
+// // Update
+// await redis.HSET('video-queue', videoId, JSON.stringify(updatedVideoData));
