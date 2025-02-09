@@ -1,5 +1,8 @@
 // reference: https://upstash.com/docs/redis/sdks/ts/overview
 
+// Use one queue for each status and have he status as key value
+// Add to the right (rpush) and take next from the left (lpop)
+
 import { Redis } from "@upstash/redis";
 
 export const redis = new Redis({
@@ -16,19 +19,5 @@ export const redis = new Redis({
 //   xx: true,
 // });
 
-// LIST OBJ TYPES
-// // Adding to queue (at the right end)
-// await redis.RPUSH('video-queue', JSON.stringify(videoData));
-
-// // Processing from queue (from the left end)
-// const nextVideo = await redis.LPOP('video-queue');
-// if (nextVideo) {
-//   const videoData = JSON.parse(nextVideo);
-//   // process video...
-// }
-
-// HASH
-// // Set
-// await redis.HSET('video-queue', videoId, JSON.stringify(videoData));
-// // Update
-// await redis.HSET('video-queue', videoId, JSON.stringify(updatedVideoData));
+// update only if it exist
+// await redis.setnx("foo", "BAAAR");
