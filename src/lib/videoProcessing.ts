@@ -14,11 +14,16 @@ export const pushVideoQueue = async (videoData: {
 };
 
 export async function processNextVideo() {
-  const videoJson = await redis.lpop("video:queue");
+  const videoJson: string | null = await redis.lpop("pendingQueue");
   if (!videoJson) return null;
 
   const video = JSON.parse(videoJson);
-  await redis.hset(`video:${video.id}`, { status: "processing" });
+  await redis.rpush("processingQueue", video);
+
+  try {
+    console.log("PROCESSING VIDEO", video)
+  }
+}
 
 //   try {
 //     // Process video...
