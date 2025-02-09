@@ -13,8 +13,8 @@ export async function createUser(data: InsertUser): Promise<{
   status: number;
   data: SelectUser;
 }> {
-  const result = await db.insert(users).values(data).execute();
-  const newUser = result.rows[0];
+  const result = await db.insert(users).values(data).returning().execute();
+  const newUser = result[0];
   return { status: 200, data: newUser };
 }
 
@@ -36,7 +36,8 @@ export async function createVideo(data: VideoWithoutUserId): Promise<{
   const result = await db
     .insert(videos)
     .values({ title, s3Key, userId: upUser.id })
+    .returning()
     .execute();
-  const newVideo = result.rows[0];
+  const newVideo = result[0];
   return { status: 200, data: newVideo };
 }

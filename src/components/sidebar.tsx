@@ -20,13 +20,8 @@ import {
 } from "@/components/ui/dialog";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
-import VideoUploadForm from "./video-upload-form";
-import { uploadVideoToS3 } from "../../lib/s3";
+import VideoUploadForm from "./videoUploadForm";
 import { useUser } from "@clerk/nextjs";
-
-type UploadVideoAction = (
-  formData: FormData
-) => Promise<{ success: boolean; error?: string; filename?: string }>;
 
 export default function AppSidebar() {
   const { isSignedIn, user, isLoaded } = useUser();

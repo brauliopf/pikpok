@@ -1,19 +1,24 @@
+CREATE TYPE "public"."status" AS ENUM('pending', 'processing', 'completed', 'failed');--> statement-breakpoint
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"clerk_id" text NOT NULL,
 	"email" text NOT NULL,
-	"name" text NOT NULL,
-	"lastname" text,
+	"first_name" text NOT NULL,
+	"last_name" text,
 	"country" text,
 	"age" integer,
 	"gender_male" boolean,
+	"profile_image_url" text,
+	CONSTRAINT "users_clerk_id_unique" UNIQUE("clerk_id"),
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE "videos" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"title" text NOT NULL,
-	"description" text,
 	"s3_key" text NOT NULL,
+	"title" text NOT NULL,
+	"status" "status" DEFAULT 'pending',
+	"description" text,
 	"metadata" jsonb,
 	"view_count" integer DEFAULT 0,
 	"created_at" timestamp DEFAULT now(),

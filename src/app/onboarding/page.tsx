@@ -6,7 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { completeOnboarding } from "../actions";
 
-export default function Onboarding() {
+export default function onboarding() {
   const { user } = useUser();
   const router = useRouter();
 

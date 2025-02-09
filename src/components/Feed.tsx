@@ -2,18 +2,18 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-import VideoCard from "./Video-Card";
+import VideoCard from "./videoCard";
 import { downloadMultipleFiles } from "@/lib/s3";
 import { getVideos } from "@/db/query";
 import { useInView } from "react-intersection-observer";
 
 const NUMBER_OF_VIDEOS_TO_FETCH = 2;
 
-interface FeedProps {
+interface feedProps {
   initialVideos: string[];
 }
 
-const Feed: React.FC<FeedProps> = ({ initialVideos }) => {
+const feed: React.FC<feedProps> = ({ initialVideos }) => {
   const [offset, setOffset] = useState(NUMBER_OF_VIDEOS_TO_FETCH);
   const [videos, setVideos] = useState<string[]>(initialVideos);
   const { ref, inView } = useInView();
@@ -39,12 +39,10 @@ const Feed: React.FC<FeedProps> = ({ initialVideos }) => {
   return (
     <div className="flex flex-col gap-4 flex-1 my-4 items-center">
       {Array.isArray(videos) &&
-        videos.map((video, index) => {
-          return <VideoCard video={video} key={index} />;
-        })}
+        videos.map((video, index) => <VideoCard video={video} key={index} />)}
       <div ref={ref}>Loading...</div>
     </div>
   );
 };
 
-export default Feed;
+export default feed;

@@ -1,6 +1,7 @@
 "use server";
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
+import { redis } from "@/lib/redis";
 
 export const completeOnboarding = async (formData: FormData) => {
   const client = await clerkClient();
@@ -11,11 +12,6 @@ export const completeOnboarding = async (formData: FormData) => {
   }
 
   try {
-    console.log(
-      "ENTER COMPLETE ONBOARDING",
-      formData.getAll("topicsOfInterest")
-    );
-
     await client.users.updateUser(userId, {
       publicMetadata: {
         onboarded: true,

@@ -1,4 +1,4 @@
-export default function VideoCard({ video }: { video: string }) {
+export default function videoCard({ video }: { video: string }) {
   return (
     <video
       width="320"

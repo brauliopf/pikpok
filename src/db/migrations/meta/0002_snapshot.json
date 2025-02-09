@@ -1,6 +1,6 @@
 {
-  "id": "1f76a313-58e5-4c42-bb32-5d07364116a7",
-  "prevId": "9e0bcb5f-087a-44cd-9a79-e58e6b0d0127",
+  "id": "510c451b-443f-4d13-854d-8119e7047a19",
+  "prevId": "b2ae65c3-6baa-4871-b683-cd5a0fc65c88",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -14,6 +14,19 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "clerk_id": {
+          "name": "clerk_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "email": {
           "name": "email",
@@ -62,6 +75,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "users_clerk_id_unique": {
+          "name": "users_clerk_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "clerk_id"
+          ]
+        },
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
@@ -85,23 +105,31 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "s3_key": {
+          "name": "s3_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "title": {
           "name": "title",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'created'"
+        },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
           "notNull": false
-        },
-        "s3_key": {
-          "name": "s3_key",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
         },
         "metadata": {
           "name": "metadata",
@@ -153,7 +181,19 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "created",
+        "pending",
+        "processing",
+        "completed",
+        "failed"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},

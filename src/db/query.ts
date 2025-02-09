@@ -1,6 +1,7 @@
 import { db } from ".";
 import { videos } from "./schema";
 import { type InferSelectModel, asc, desc } from "drizzle-orm";
+import { redis } from "@/lib/redis";
 
 type SelectVideo = InferSelectModel<typeof videos>;
 
