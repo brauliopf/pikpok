@@ -70,7 +70,9 @@ export async function POST(req: Request) {
     });
   }
 
-  user && console.log("USER CREATED:", user.data);
+  if (user) {
+    console.log("USER CREATED", user.data);
+  }
 
   return new Response("Webhook received", { status: 200 });
 }
