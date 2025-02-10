@@ -1,4 +1,4 @@
-import Feed from "@/components/feed";
+import Feed from "@/components/feedcomp";
 import { getVideos } from "@/db/query";
 import { downloadMultipleFiles } from "@/lib/s3";
 
