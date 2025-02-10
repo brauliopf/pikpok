@@ -52,9 +52,9 @@ export async function POST(req: Request) {
   /* Example Webhook payload: https://clerk.com/docs/webhooks/overview#payload-structure
    * body === evt.data stringfied
    */
-  // @ts-expect-error
+  // @ts-expect-error --this is necesary to work
   const { id, first_name, last_name, profile_image_url, image_url } = evt.data;
-  // @ts-expect-error
+  // @ts-expect-error --this is necesary to work
   const temp = evt.data.email_addresses;
   const { email_address } = temp && temp[0];
   const eventType = evt.type;
