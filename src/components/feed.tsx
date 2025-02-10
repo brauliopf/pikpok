@@ -7,14 +7,14 @@ import { downloadMultipleFiles } from "@/lib/s3";
 import { getVideos } from "@/db/query";
 import { useInView } from "react-intersection-observer";
 
-const NUMBER_OF_VIDEOS_TO_FETCH = 2;
+const NUMBER_OF_VIDEOS_TO_FETCH = 3;
 
 interface feedProps {
   initialVideos: string[];
 }
 
 const Feed: React.FC<feedProps> = ({ initialVideos }) => {
-  const [offset, setOffset] = useState(NUMBER_OF_VIDEOS_TO_FETCH);
+  const [offset, setOffset] = useState(initialVideos.length);
   const [videos, setVideos] = useState<string[]>(initialVideos);
   const { ref, inView } = useInView();
 
