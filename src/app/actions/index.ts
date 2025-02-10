@@ -1,7 +1,6 @@
 "use server";
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { redis } from "@/lib/redis";
 
 export const completeOnboarding = async (formData: FormData) => {
   const client = await clerkClient();

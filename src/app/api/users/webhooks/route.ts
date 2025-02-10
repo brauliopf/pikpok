@@ -4,7 +4,6 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser } from "@/db/mutations";
 
 export async function POST(req: Request) {
-  console.log("USER CREATED WEBHOOK");
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
   if (!SIGNING_SECRET) {
@@ -53,9 +52,9 @@ export async function POST(req: Request) {
   /* Example Webhook payload: https://clerk.com/docs/webhooks/overview#payload-structure
    * body === evt.data stringfied
    */
-  // @ts-ignore
+  // @ts-expect-error
   const { id, first_name, last_name, profile_image_url, image_url } = evt.data;
-  // @ts-ignore
+  // @ts-expect-error
   const temp = evt.data.email_addresses;
   const { email_address } = temp && temp[0];
   const eventType = evt.type;

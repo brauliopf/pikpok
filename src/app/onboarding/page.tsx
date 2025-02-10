@@ -6,7 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { completeOnboarding } from "../actions";
 
-export default function onboarding() {
+export default function Onboarding() {
   const { user } = useUser();
   const router = useRouter();
 
@@ -21,7 +21,7 @@ export default function onboarding() {
       <div className="mx-auto overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="p-8">
           <h3 className="text-xl font-semibold text-gray-900">Welcome!</h3>
-          <span>Let's spend some quality time together.</span>
+          <span>Let&rsquo;s spend some quality time together.</span>
         </div>
         <form action={handleSubmit}>
           <div className="pb-8 px-8 flex flex-row space-x-4">

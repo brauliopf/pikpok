@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { uploadVideoToS3 } from "../lib/s3";
 import { useToast } from "@/hooks/use-toast";
 import { createVideo } from "@/db/mutations";
-import { useRouter } from "next/navigation";
 import { pushVideoQueue } from "@/lib/videoProcessing";
 
 const VideoUploadForm: React.FC = () => {
@@ -52,6 +51,7 @@ const VideoUploadForm: React.FC = () => {
       }
 
       // Add video to application DB
+      console.log("HANDLE UPLOAD", event);
       const video = await createVideo({
         title: selectedFile.name || "untitled",
         s3Key: response?.filename || "default_s3key",

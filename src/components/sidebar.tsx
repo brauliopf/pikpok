@@ -24,7 +24,7 @@ import VideoUploadForm from "./videoUploadForm";
 import { useUser } from "@clerk/nextjs";
 
 export default function AppSidebar() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user } = useUser();
 
   return (
     <Sidebar className="w-50">

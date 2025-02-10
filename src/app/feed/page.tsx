@@ -1,9 +1,9 @@
-import Feed from "@/components/Feed";
+import Feed from "@/components/feed";
 import { getVideos } from "@/db/query";
 import { downloadMultipleFiles } from "@/lib/s3";
 
 export default async function feedPage() {
-  const { status, data: localVideos } = await getVideos({
+  const { data: localVideos } = await getVideos({
     limit: 3,
     offset: 0,
   });
