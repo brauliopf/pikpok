@@ -51,7 +51,7 @@ export const generateVideoMetadata = async ({
   // get summary embeddings
   // const textEmbeddings = await getTextEmbedding(
   //   `${summary}. Interests: ${[interests].join(", ")}`
-  // );
+  // )
 
   // store video metadata
   // console.log(`${summary}. Interests: ${[interests].join(",")}`);
