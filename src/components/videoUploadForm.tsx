@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { uploadVideoToS3 } from "../lib/s3";
 import { useToast } from "@/hooks/use-toast";
 import { createVideo } from "@/db/mutations";
-import { pushVideoQueue } from "@/lib/videoProcessing";
+import { generateVideoMetadata } from "@/app/actions";
 
 const VideoUploadForm: React.FC = () => {
   const { user } = useUser();
@@ -51,22 +51,16 @@ const VideoUploadForm: React.FC = () => {
       }
 
       // Add video to application DB
-      console.log("HANDLE UPLOAD", event);
       const video = await createVideo({
         title: selectedFile.name || "untitled",
         s3Key: response?.filename || "default_s3key",
         clerkId: user!.id,
       });
 
-      // Send video to processing queue (server action)
-      // pushVideoQueue({
-      pushVideoQueue({
-        videoId: video.data.id,
-        s3Key: response.filename,
-        title: selectedFile.name,
-        clerkId: user!.id,
-        createdAt: video.data.createdAt!,
-        status: "pending",
+      // Create video metadata
+      const metadata = generateVideoMetadata({
+        id: video.data.id,
+        s3Key: video.data.s3Key,
       });
 
       // Provide feedback

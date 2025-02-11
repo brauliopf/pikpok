@@ -1,13 +1,13 @@
 import Feed from "@/components/feed";
-import { getVideos } from "@/db/query";
-import { downloadMultipleFiles } from "@/lib/s3";
+import { getVideosS3Key } from "@/db/query";
+import { getFilesFromS3 } from "@/lib/s3";
 
 export default async function landing() {
-  const { data: localVideos } = await getVideos({
+  const { data: localVideos } = await getVideosS3Key({
     limit: 3,
     offset: 0,
   });
-  const s3Videos = await downloadMultipleFiles(localVideos.map((v) => v.s3Key));
+  const s3Videos = await getFilesFromS3(localVideos.map((v) => v.s3Key));
 
   return (
     <div className="flex flex-1 left-0 right-0 top-0 bottom-0 h-screen overflow-y-auto">

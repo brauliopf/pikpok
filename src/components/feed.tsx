@@ -3,8 +3,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import VideoCard from "./videoCard";
-import { downloadMultipleFiles } from "@/lib/s3";
-import { getVideos } from "@/db/query";
+import { getFilesFromS3 } from "@/lib/s3";
+import { getVideosS3Key } from "@/db/query";
 import { useInView } from "react-intersection-observer";
 
 const NUMBER_OF_VIDEOS_TO_FETCH = 3;
@@ -19,13 +19,11 @@ const Feed: React.FC<feedProps> = ({ initialVideos }) => {
   const { ref, inView } = useInView();
 
   const loadMoreVideos = async () => {
-    const localVideos = await getVideos({
+    const localVideos = await getVideosS3Key({
       offset,
       limit: NUMBER_OF_VIDEOS_TO_FETCH,
     });
-    const s3Videos = await downloadMultipleFiles(
-      localVideos.data.map((v) => v.s3Key)
-    );
+    const s3Videos = await getFilesFromS3(localVideos.data.map((v) => v.s3Key));
     setVideos((videos) => [...videos, ...s3Videos.map((v) => v.url)]);
     setOffset((offset) => offset + NUMBER_OF_VIDEOS_TO_FETCH);
   };

@@ -41,3 +41,27 @@ export async function createVideo(data: VideoWithoutUserId): Promise<{
   const newVideo = result[0];
   return { status: 200, data: newVideo };
 }
+
+interface UpdateVideoMetadataParams {
+  id: string;
+  summary: string;
+  interests: any;
+  embeddings: any;
+}
+
+export async function updateVideoMetadata({
+  id,
+  summary,
+  interests,
+  embeddings,
+}: UpdateVideoMetadataParams) {
+  const result = await db
+    .update(videos)
+    .set({
+      aisummary: summary,
+      interests: JSON.stringify(interests),
+      embeddings: embeddings,
+    })
+    .where(eq(videos.id, id));
+  return { status: 200, data: result };
+}

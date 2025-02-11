@@ -7,6 +7,7 @@ import {
   timestamp,
   uuid,
   jsonb,
+  vector,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -36,10 +37,12 @@ export const videos = pgTable("videos", {
   title: text("title").notNull(),
   status: videoStatusEnum().default("created").notNull(),
   description: text("description"),
-  metadata: jsonb("metadata"), // tags, categories, etc.
   viewCount: integer("view_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
+  aisummary: text("aisummary"),
+  interests: text("interests"),
+  embeddings: vector("embeddings", { dimensions: 768 }).default([]),
 });

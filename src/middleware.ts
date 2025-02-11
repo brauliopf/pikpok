@@ -7,14 +7,16 @@ const isWebhookRoute = createRouteMatcher(["/api/users/webhooks(.*)"]);
 
 const isPublicRoute = createRouteMatcher(["/landing"]);
 // TODO: add specific video URL to public routes
-const isFeedRoute = createRouteMatcher(["/feed"]);
+const isFeedRoute = createRouteMatcher(["/"]);
+
+const isSandbox = createRouteMatcher(["/sandbox"]);
 
 // Configure access to routes. Retrieve claims directly from the session and redirect user accordingly.
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims } = await auth();
 
-  // let webhooks pass
-  if (isWebhookRoute(req)) return NextResponse.next();
+  // let webhooks or sandbox pass
+  if (isWebhookRoute(req) || isSandbox(req)) return NextResponse.next();
 
   // Not logged in. Redirect to landing page. If landing, be there.
   if (!userId) {
@@ -36,7 +38,7 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
         return NextResponse.redirect(onboardingUrl);
       }
     } else if (!isFeedRoute(req)) {
-      const feedUrl = new URL("/feed", req.url);
+      const feedUrl = new URL("/", req.url);
       return NextResponse.redirect(feedUrl);
     } else {
       return NextResponse.next();

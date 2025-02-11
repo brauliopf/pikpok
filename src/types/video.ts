@@ -1,13 +1,12 @@
 export interface VideoMetadata {
+  summary?: string;
+  topics?: string[];
+  thumbnailUrl?: string;
+}
+
+export interface VideoIDKey {
   id: string;
   s3Key: string;
   title: string;
-  clerkId: string;
-  status: "pending" | "processing" | "completed" | "failed";
-  metadata?: {
-    duration?: number;
-    resolution?: string;
-    topics?: string[];
-    thumbnailUrl?: string;
-  };
+  status: string;
 }

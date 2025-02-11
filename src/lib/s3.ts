@@ -17,7 +17,7 @@ const s3Client = new S3Client({
   },
 });
 
-export async function downloadMultipleFiles(
+export async function getFilesFromS3(
   fileKeys: string[]
 ): Promise<{ fileKey: string; url: string }[]> {
   try {
