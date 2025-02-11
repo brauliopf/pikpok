@@ -4,7 +4,7 @@ import { labels } from "./utils";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const vertexAI = new VertexAI({
-  project: process.env.VERTEXAI_PROJECT,
+  project: "headstarter-441420",
 });
 
 export async function generateContent(fileUrl: string) {
