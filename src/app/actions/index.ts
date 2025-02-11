@@ -53,7 +53,7 @@ export const generateVideoMetadata = async ({
   );
 
   // store video metadata
-  console.log(`${summary}. Interests: ${[interests].join(",")}`);
+  console.log(`${summary} Interests: ${[interests].join(",")}`);
   await updateVideoMetadata({
     id: id,
     summary,
