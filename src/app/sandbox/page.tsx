@@ -3,7 +3,6 @@ import { generateVideoMetadata } from "../actions";
 import { VideoIDKey } from "@/types/video";
 
 export default async function Sandbox() {
-  console.error("FROM SANDBOX");
   const videos = await getVideos({ limit: 10, offset: 0 });
 
   const testAction = async (formData: FormData) => {
@@ -18,7 +17,12 @@ export default async function Sandbox() {
     const id = video.id;
     const s3Key = video.s3Key;
 
-    await generateVideoMetadata({ id, s3Key });
+    try {
+      await generateVideoMetadata({ id, s3Key });
+    } catch (e) {
+      console.error("Failed to generate video metadata");
+      throw new Error("Failed to generate video metadata");
+    }
   };
 
   return (

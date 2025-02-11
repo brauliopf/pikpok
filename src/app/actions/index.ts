@@ -44,7 +44,7 @@ export const generateVideoMetadata = async ({
     summary = content.summary;
     interests = content.interests;
   } catch (e) {
-    console.log("Error processing video", e);
+    console.error("Error processing video", e);
   }
 
   // get summary embeddings
