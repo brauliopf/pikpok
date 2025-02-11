@@ -43,12 +43,9 @@ export async function generateContent(fileUrl: string) {
       return null;
     }
     return JSON.parse(responseText);
-  } catch (error: any) {
-    console.error(
-      "Error summarizing video with Gemini model:",
-      error.message || error
-    );
-    throw new Error(error.message || "Failed to generate content");
+  } catch (error: unknown) {
+    console.error("Error summarizing video with Gemini model:");
+    throw new Error("Failed to generate content");
   }
 }
 

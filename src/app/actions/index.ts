@@ -55,7 +55,7 @@ export const generateVideoMetadata = async ({
 
   // store video metadata
   // console.log(`${summary}. Interests: ${[interests].join(",")}`);
-  const result = await updateVideoMetadata({
+  await updateVideoMetadata({
     id: id,
     summary,
     interests,
@@ -92,7 +92,7 @@ export const generateVideoMetadataSandbox = async (formData: FormData) => {
 
   // store video metadata
   // console.log(`${summary}. Interests: ${[interests].join(",")}`);
-  const result = await updateVideoMetadata({
+  await updateVideoMetadata({
     id: video.id,
     summary,
     interests,

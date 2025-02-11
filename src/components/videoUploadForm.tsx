@@ -26,7 +26,7 @@ const VideoUploadForm: React.FC = () => {
     if (!selectedFile) {
       toast({
         title: "Error",
-        description: "Please select a file first",
+        description: `Please select a file first. ${event}`,
         variant: "destructive",
       });
       return;
@@ -58,7 +58,7 @@ const VideoUploadForm: React.FC = () => {
       });
 
       // Create video metadata
-      const metadata = generateVideoMetadata({
+      await generateVideoMetadata({
         id: video.data.id,
         s3Key: video.data.s3Key,
       });

@@ -45,8 +45,8 @@ export async function createVideo(data: VideoWithoutUserId): Promise<{
 interface UpdateVideoMetadataParams {
   id: string;
   summary: string;
-  interests: any;
-  embeddings: any;
+  interests: string[];
+  embeddings: number[];
 }
 
 export async function updateVideoMetadata({
