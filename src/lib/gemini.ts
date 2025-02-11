@@ -2,13 +2,16 @@ import { VertexAI } from "@google-cloud/vertexai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { labels } from "./utils";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const vertexAI = new VertexAI({
-  project: "headstarter-441420",
-});
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+// const vertexAI = new VertexAI({
+//   project: "headstarter-441420",
+// });
 
-export async function generateContent(fileUrl: string) {
+export async function generateMetadata(fileUrl: string) {
   try {
+    const vertexAI = new VertexAI({
+      project: "headstarter-441420",
+    });
     const generativeModel = vertexAI.getGenerativeModel({
       model: "gemini-1.5-flash-001",
     });
@@ -51,6 +54,7 @@ export async function generateContent(fileUrl: string) {
 
 export async function getTextEmbedding(text: string) {
   try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
     const model = genAI.getGenerativeModel({
       model: "text-embedding-004",
     });

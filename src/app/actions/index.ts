@@ -1,7 +1,7 @@
 "use server";
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { generateContent, getTextEmbedding } from "@/lib/gemini";
+import { generateMetadata, getTextEmbedding } from "@/lib/gemini";
 import { getFilesFromS3 } from "@/lib/s3";
 import { updateVideoMetadata } from "@/db/mutations";
 
@@ -40,7 +40,7 @@ export const generateVideoMetadata = async ({
   let interests = "";
   try {
     const s3Videos = await getFilesFromS3([s3Key]);
-    const content = (await generateContent(s3Videos[0].url)) || {};
+    const content = (await generateMetadata(s3Videos[0].url)) || {};
     summary = content.summary;
     interests = content.interests;
   } catch (e) {
