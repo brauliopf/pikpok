@@ -20,8 +20,8 @@ export default async function Sandbox() {
     try {
       await generateVideoMetadata({ id, s3Key });
     } catch (e) {
-      console.error("Failed to generate video metadata");
-      throw new Error("Failed to generate video metadata");
+      console.error("Failed to generate video metadata", e);
+      throw new Error(`Failed to generate video metadata: ${e}`);
     }
   };
 
