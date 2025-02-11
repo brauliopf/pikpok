@@ -32,7 +32,7 @@ const Feed: React.FC<feedProps> = ({ initialVideos }) => {
     if (inView) {
       loadMoreVideos();
     }
-  }, [inView, loadMoreVideos]);
+  }, [inView]);
 
   return (
     <div className="flex flex-col gap-4 flex-1 my-4 items-center">
