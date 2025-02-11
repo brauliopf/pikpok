@@ -58,7 +58,7 @@ export const generateVideoMetadata = async ({
   await updateVideoMetadata({
     id: id,
     summary,
-    interests,
+    interests: Array.isArray(interests) ? interests : [interests],
     embeddings: textEmbeddings,
   });
 };
@@ -95,7 +95,7 @@ export const generateVideoMetadataSandbox = async (formData: FormData) => {
   await updateVideoMetadata({
     id: video.id,
     summary,
-    interests,
+    interests: Array.isArray(interests) ? interests : [interests],
     embeddings: textEmbeddings,
   });
 
