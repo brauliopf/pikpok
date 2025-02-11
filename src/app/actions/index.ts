@@ -59,7 +59,7 @@ export const generateVideoMetadata = async ({
     id: id,
     summary,
     interests: Array.isArray(interests) ? interests : [interests],
-    embeddings: textEmbeddings,
+    // embeddings: textEmbeddings,
   });
 };
 

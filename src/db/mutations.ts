@@ -46,7 +46,7 @@ interface UpdateVideoMetadataParams {
   id: string;
   summary: string;
   interests: string[];
-  embeddings: number[];
+  embeddings?: number[] | [];
 }
 
 export async function updateVideoMetadata({
