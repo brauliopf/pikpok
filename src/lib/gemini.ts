@@ -15,7 +15,7 @@ export async function generateMetadata(fileUrl: string) {
 
   try {
     console.log(
-      "GENERATE METADATA:",
+      "LOG GENERATE METADATA:",
       process.env.GOOGLE_APPLICATION_CREDENTIALS,
       JSON.stringify(
         fs.readFileSync(process.env.GOOGLE_APPLICATION_CREDENTIALS, "utf8")
