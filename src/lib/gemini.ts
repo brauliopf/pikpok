@@ -1,7 +1,7 @@
 import { VertexAI } from "@google-cloud/vertexai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { labels } from "./utils";
-import "fs";
+import * as fs from "fs";
 
 // const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 // const vertexAI = new VertexAI({
@@ -9,9 +9,8 @@ import "fs";
 // });
 
 export async function generateMetadata(fileUrl: string) {
-  const fs = require("fs");
   const path = "/tmp/gcp-key.json";
-  fs.writeFileSync(path, process.env.GOOGLE_SERVICEACC_CREDENTIALS_JSON);
+  fs.writeFileSync(path, process.env.GOOGLE_SERVICEACC_CREDENTIALS_JSON!);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = path;
 
   try {
