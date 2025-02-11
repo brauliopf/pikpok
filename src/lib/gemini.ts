@@ -10,8 +10,9 @@ import { labels } from "./utils";
 export async function generateMetadata(fileUrl: string) {
   try {
     const vertexAI = new VertexAI({
+      project: "headstarter-441420",
       googleAuthOptions: {
-        keyFilename: process.env.GOOGLE_SERVICEACC_CREDENTIALS,
+        keyFilename: process.env.GOOGLE_AUTH_OPTION_SERVICEACC,
       },
     });
     const generativeModel = vertexAI.getGenerativeModel({
