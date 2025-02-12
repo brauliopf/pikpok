@@ -18,6 +18,25 @@ export async function createUser(data: InsertUser): Promise<{
   return { status: 200, data: newUser };
 }
 
+export async function updateUser(
+  data: Partial<InsertUser> & { clerk_id: string }
+): Promise<{
+  status: number;
+  data: SelectUser;
+}> {
+  if (!data.clerk_id) {
+    throw new Error("clerk_id is required");
+  }
+
+  const result = await db
+    .update(users)
+    .set(data)
+    .where(eq(users.clerk_id, data.clerk_id))
+    .returning();
+  const newUser = result[0];
+  return { status: 200, data: newUser };
+}
+
 type VideoWithoutUserId = Omit<InsertVideo, "userId"> & { clerkId: string };
 
 export async function createVideo(data: VideoWithoutUserId): Promise<{

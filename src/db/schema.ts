@@ -20,6 +20,9 @@ export const users = pgTable("users", {
   age: integer("age"),
   genderMale: boolean("gender_male"),
   profileImageURL: text("profile_image_url"),
+  onboarded: boolean("onboarded").notNull().default(false),
+  videoDuration: text("videoDuration"),
+  topicsOfInterest: text("topics_of_interest").array(),
 });
 
 export const videoStatusEnum = pgEnum("status", [

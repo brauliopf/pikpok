@@ -27,24 +27,31 @@ export default function Onboarding() {
           <div className="pb-8 px-8 flex flex-row space-x-4">
             <div className="">
               <label className="block text-sm font-semibold text-gray-700">
-                What type of content do you most frequently engage with? (Select
-                all that apply)
+                What content topics would interest you today? (Select all that
+                apply)
               </label>
               <div className="mt-1 w-full">
                 <div className="flex flex-col">
                   {[
-                    "Dance challenges and choreography",
-                    "Educational/How-to videos",
-                    "Comedy skits and humor",
-                    "Fashion and beauty tutorials",
-                    "Food and cooking",
-                    "Life hacks and DIY",
-                    "Gaming content",
-                    "Pet and animal videos",
-                    "Travel and adventure",
+                    "Art and creative content",
+                    "Automotive and vehicles",
+                    "Beauty and makeup",
+                    "Business and entrepreneurship",
+                    "Comedy and humor",
+                    "Educational and academic",
+                    "Fashion and style",
                     "Fitness and wellness",
-                    "Music performances",
-                    "Tech reviews and gadgets",
+                    "Food and cooking",
+                    "Gaming",
+                    "Movies and TV content",
+                    "Music and dance",
+                    "News and current events",
+                    "Personal vlogs and lifestyle",
+                    "Pets and animals",
+                    "Science and nature",
+                    "Sports and athletics",
+                    "Tech and gadgets",
+                    "Travel and adventure",
                   ].map((option, index) => (
                     <label
                       key={index}

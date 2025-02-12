@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/db/mutations";
+import { createUser, updateUser } from "@/db/mutations";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -52,26 +52,52 @@ export async function POST(req: Request) {
   /* Example Webhook payload: https://clerk.com/docs/webhooks/overview#payload-structure
    * body === evt.data stringfied
    */
-  // @ts-expect-error --this is necesary to work
-  const { id, first_name, last_name, profile_image_url, image_url } = evt.data;
-  // @ts-expect-error --this is necesary to work
-  const temp = evt.data.email_addresses;
-  const { email_address } = temp && temp[0];
   const eventType = evt.type;
-
-  let user;
   if (eventType == "user.created") {
-    user = await createUser({
-      clerk_id: id!,
-      email: email_address,
-      firstName: first_name,
-      lastName: last_name,
-      profileImageURL: profile_image_url || image_url,
-    });
-  }
+    const { id, first_name, last_name, image_url } = evt.data;
+    const primary_email_id = evt.data.primary_email_address_id;
+    const email_address = evt.data.email_addresses.find(
+      (value) => value.id == primary_email_id
+    )?.email_address;
 
-  if (user) {
-    console.log("USER CREATED", user.data);
+    const user = await createUser({
+      clerk_id: id!,
+      email: email_address!,
+      firstName: first_name || "",
+      lastName: last_name,
+      profileImageURL: image_url,
+    });
+    if (user) {
+      console.log("USER CREATED", user.data);
+    }
+  } else if (eventType == "user.updated") {
+    const { id: clerk_id, first_name, last_name, image_url } = evt.data;
+    const primary_email_id = evt.data.primary_email_address_id;
+    const email_address = evt.data.email_addresses.find(
+      (value) => value.id == primary_email_id
+    )?.email_address;
+
+    // metadata
+    const onboarded = evt.data.public_metadata.onboarded;
+    const videoDuration = evt.data.public_metadata.videoDuration;
+    const topicsOfInterest = evt.data.public_metadata.topicsOfInterest;
+
+    const user = await updateUser({
+      clerk_id: clerk_id!,
+      email: email_address!,
+      firstName: first_name || "",
+      lastName: last_name,
+      profileImageURL: image_url,
+      // @ts-expect-error --ignore metadata types
+      onboarded: onboarded,
+      // @ts-expect-error --ignore metadata types
+      videoDuration: videoDuration,
+      // @ts-expect-error --ignore metadata types
+      topicsOfInterest: topicsOfInterest,
+    });
+    if (user) {
+      console.log("USER UPDATED", user.data);
+    }
   }
 
   return new Response("Webhook received", { status: 200 });
