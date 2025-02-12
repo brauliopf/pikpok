@@ -23,6 +23,7 @@ export const users = pgTable("users", {
   onboarded: boolean("onboarded").notNull().default(false),
   videoDuration: text("videoDuration"),
   topicsOfInterest: text("topics_of_interest").array(),
+  embeddings: vector("embeddings", { dimensions: 768 }).default([]),
 });
 
 export const videoStatusEnum = pgEnum("status", [

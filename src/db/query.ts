@@ -1,7 +1,23 @@
 import { db } from ".";
-import { videos } from "./schema";
-import { desc } from "drizzle-orm";
+import { videos, users } from "./schema";
+import { eq, desc, type InferSelectModel } from "drizzle-orm";
 import { VideoIDKey } from "@/types/video";
+
+type SelectUser = InferSelectModel<typeof users>;
+
+export async function getUser(clerk_id: string): Promise<{
+  status: number;
+  data: SelectUser;
+}> {
+  // ref: https://orm.drizzle.team/docs/select
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.clerk_id, clerk_id))
+    .limit(1)
+    .execute();
+  return { status: 200, data: result[0] };
+}
 
 export async function getVideosS3Key({
   limit,

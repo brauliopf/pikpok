@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "embeddings" vector(768) DEFAULT NULL;

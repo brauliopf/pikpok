@@ -2,6 +2,8 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, updateUser } from "@/db/mutations";
+import { getUser } from "@/db/query";
+import { getTextEmbedding } from "@/lib/gemini";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -48,6 +50,24 @@ export async function POST(req: Request) {
     });
   }
 
+  async function getUserEmbedding(clerk_id: string) {
+    // get user object
+    const user = await getUser(clerk_id);
+    // build text summary
+    let profile = "" + user.data.age && `User is ${user.data.age}.`;
+    profile =
+      profile + user.data.country && `\nUser comes from ${user.data.country}`;
+    profile =
+      profile + user.data.topicsOfInterest &&
+      `\nUser is interested in ${user.data.topicsOfInterest?.join(", ")}`;
+
+    // get embeddings from an llm
+    console.log("GET USER EMBEDDINGS", profile);
+    const embeddings = getTextEmbedding(profile);
+
+    return embeddings;
+  }
+
   // Do something with payload
   /* Example Webhook payload: https://clerk.com/docs/webhooks/overview#payload-structure
    * body === evt.data stringfied
@@ -60,6 +80,7 @@ export async function POST(req: Request) {
       (value) => value.id == primary_email_id
     )?.email_address;
 
+    // CREATE
     const user = await createUser({
       clerk_id: id!,
       email: email_address!,
@@ -70,6 +91,7 @@ export async function POST(req: Request) {
     if (user) {
       console.log("USER CREATED", user.data);
     }
+    // UPDATE
   } else if (eventType == "user.updated") {
     const { id: clerk_id, first_name, last_name, image_url } = evt.data;
     const primary_email_id = evt.data.primary_email_address_id;
@@ -77,10 +99,12 @@ export async function POST(req: Request) {
       (value) => value.id == primary_email_id
     )?.email_address;
 
-    // metadata
+    // --metadata
     const onboarded = evt.data.public_metadata.onboarded;
     const videoDuration = evt.data.public_metadata.videoDuration;
     const topicsOfInterest = evt.data.public_metadata.topicsOfInterest;
+
+    const embeddings = await getUserEmbedding(clerk_id);
 
     const user = await updateUser({
       clerk_id: clerk_id!,
@@ -94,7 +118,9 @@ export async function POST(req: Request) {
       videoDuration: videoDuration,
       // @ts-expect-error --ignore metadata types
       topicsOfInterest: topicsOfInterest,
+      embeddings: embeddings,
     });
+
     if (user) {
       console.log("USER UPDATED", user.data);
     }
