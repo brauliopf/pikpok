@@ -29,7 +29,7 @@ export default async function landing() {
         </div>
         <div className="flex-grow"></div>
         <div className="h-screen">
-          <Feed initialVideos={s3Videos} timestamp={timestamp} />
+          <Feed initialVideos={null} timestamp={timestamp} />
         </div>
       </main>
     </div>

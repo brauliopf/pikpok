@@ -19,7 +19,7 @@ export default function videoCard({
       <div className="flex flex-col justify-end px-2 py-3 ml-4 mb-8 gap-4">
         <img
           src={video.creator_img}
-          className="w-12 h-12 rounded-full outline outline-0"
+          className="w-12 h-12 rounded-full bg-gray-300 p-0.5"
         />
         <CardActions />
       </div>

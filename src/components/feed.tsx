@@ -12,13 +12,19 @@ import { VideoIdToUrl } from "@/types/video";
 const NUMBER_OF_VIDEOS_TO_FETCH = 3;
 
 interface feedProps {
-  initialVideos: VideoIdToUrl[];
+  initialVideos:
+    | (VideoIdToUrl & { creator_id: string; creator_img: string })[]
+    | null;
   timestamp: number;
 }
 
 const Feed: React.FC<feedProps> = ({ initialVideos, timestamp }) => {
-  const [offset, setOffset] = useState(initialVideos.length);
-  const [videos, setVideos] = useState<VideoIdToUrl[]>(initialVideos);
+  const [offset, setOffset] = useState(
+    initialVideos ? initialVideos.length : 0
+  );
+  const [videos, setVideos] = useState<
+    (VideoIdToUrl & { creator_id: string; creator_img: string })[]
+  >(initialVideos || []);
   const { ref, inView } = useInView();
   const { user } = useUser();
 
