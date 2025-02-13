@@ -23,7 +23,7 @@ const Feed: React.FC<feedProps> = ({ initialVideos, timestamp }) => {
   const { user } = useUser();
 
   const loadCustomVideos = async () => {
-    // get videos id and s3Key
+    // get videos id, s3Key and creatorId
     const localVideos = await getCustomVideos({
       clerk_id: (user && user.id) || "",
       offset,
@@ -31,7 +31,6 @@ const Feed: React.FC<feedProps> = ({ initialVideos, timestamp }) => {
     });
 
     // use videos s3Key to get url
-    console.log("Feed", localVideos);
     const s3Videos = await mapVideoIdToUrl(localVideos.data);
     setVideos((videos) => [...videos, ...s3Videos]);
     setOffset((offset) => offset + NUMBER_OF_VIDEOS_TO_FETCH);
@@ -46,9 +45,9 @@ const Feed: React.FC<feedProps> = ({ initialVideos, timestamp }) => {
   return (
     <div className="flex flex-col gap-4 flex-1 my-4 items-center">
       {Array.isArray(videos) &&
-        videos.map((video, index) => (
-          <VideoCard video={video.url} key={index} />
-        ))}
+        videos.map((video, index) => {
+          return <VideoCard video={video} key={index} />;
+        })}
       <div ref={ref}>Loading...</div>
     </div>
   );

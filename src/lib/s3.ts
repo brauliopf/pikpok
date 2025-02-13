@@ -20,29 +20,40 @@ const s3Client = new S3Client({
 
 /**
  * get url for all selected videos
- * takes {id, s3Key, similarity}[] as input and returns {id, url, similarity}[]
+ * replaces s3Key for url
  */
 export async function mapVideoIdToUrl(
-  videos: VideoIdToS3Key[]
-): Promise<VideoIdToUrl[]> {
+  videos: (VideoIdToS3Key & { creator_id: string })[]
+): Promise<(VideoIdToUrl & { creator_id: string })[]> {
   try {
-    const downloadPromises = videos.map(async (video) => {
-      try {
-        const command = new GetObjectCommand({
-          Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: video.s3Key,
-        });
-        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-        return { id: video.id, url, similarity: video.similarity || 0 };
-      } catch (error) {
-        console.error(`Error fetching file ${video} from S3:`, error);
-        return {
-          id: video.id,
-          url: `Error fetching file ${video} from S3`,
-          similarity: 0,
-        };
-      }
-    });
+    const downloadPromises: Promise<VideoIdToUrl & { creator_id: string }>[] =
+      videos.map(async (video) => {
+        try {
+          // get url
+          const command = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: video.s3Key,
+          });
+          const url = await getSignedUrl(s3Client, command, {
+            expiresIn: 3600,
+          });
+
+          const { s3Key, ...output } = video;
+          return {
+            ...output,
+            url: url,
+          } as VideoIdToUrl & { creator_id: string };
+        } catch (error) {
+          console.error(`Error fetching file ${video} from S3:`, error);
+          return {
+            id: video.id,
+            url: "",
+            similarity: 0,
+            creator_id: video.creator_id,
+            error: `Error fetching file ${video} from S3`,
+          } as VideoIdToUrl & { creator_id: string; error?: string };
+        }
+      });
 
     const results = await Promise.all(downloadPromises);
 
