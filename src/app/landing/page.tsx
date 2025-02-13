@@ -4,7 +4,7 @@ import { mapVideoIdToUrl } from "@/lib/s3";
 
 export default async function landing() {
   const { data: selectedVideoIds, timestamp } = await mapVideoIdToS3Key({
-    limit: 3,
+    limit: 1,
     offset: 0,
   });
   const videosIdToUrl = await mapVideoIdToUrl(selectedVideoIds);

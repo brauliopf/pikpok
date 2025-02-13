@@ -22,9 +22,10 @@ export async function getCustomVideos({
       SELECT embeddings
       FROM users WHERE clerk_id = ${clerk_id}
     )
-    SELECT id, s3_key, 1 - (v.embeddings <=> u.embeddings) AS similarity
+    SELECT v.id, v.s3_key, 1 - (v.embeddings <=> u.embeddings) AS similarity, creator.id
     FROM videos AS v
     LEFT JOIN user_data AS u ON true
+    LEFT JOIN users AS creator ON creator.id = v.user_id
     ORDER BY 3 DESC
     LIMIT ${limit}
     OFFSET ${offset}

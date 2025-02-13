@@ -4,9 +4,10 @@ import { mapVideoIdToUrl } from "@/lib/s3";
 
 export default async function feedPage() {
   const { data: selectedVideoIds, timestamp } = await mapVideoIdToS3Key({
-    limit: 3,
+    limit: 2,
     offset: 0,
   });
+  console.log("Home", selectedVideoIds);
   const videosIdToUrl = await mapVideoIdToUrl(selectedVideoIds);
 
   return (

@@ -31,6 +31,7 @@ const Feed: React.FC<feedProps> = ({ initialVideos, timestamp }) => {
     });
 
     // use videos s3Key to get url
+    console.log("Feed", localVideos);
     const s3Videos = await mapVideoIdToUrl(localVideos.data);
     setVideos((videos) => [...videos, ...s3Videos]);
     setOffset((offset) => offset + NUMBER_OF_VIDEOS_TO_FETCH);
