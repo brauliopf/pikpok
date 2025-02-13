@@ -1,4 +1,4 @@
-import { getVideos } from "@/db/query";
+import { getVideos } from "@/db/queries/videos";
 import { generateVideoMetadata } from "../actions";
 import { VideoIDKey } from "@/types/video";
 

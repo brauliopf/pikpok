@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { uploadVideoToS3 } from "../lib/s3";
 import { useToast } from "@/hooks/use-toast";
-import { createVideo } from "@/db/mutations";
+import { createVideo } from "@/db/mutations/videos";
 import { generateVideoMetadata } from "@/app/actions";
 
 const VideoUploadForm: React.FC = () => {
@@ -53,7 +53,7 @@ const VideoUploadForm: React.FC = () => {
       // Add video to application DB
       const video = await createVideo({
         title: selectedFile.name || "untitled",
-        s3Key: response?.filename || "default_s3key",
+        s3Key: response?.filename || "default_s3Key",
         clerkId: user!.id,
       });
 

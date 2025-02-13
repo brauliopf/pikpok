@@ -8,6 +8,7 @@ import {
 
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
+import { VideoIdToS3Key, VideoIdToUrl } from "@/types/video";
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
@@ -17,21 +18,29 @@ const s3Client = new S3Client({
   },
 });
 
-export async function getFilesFromS3(
-  fileKeys: string[]
-): Promise<{ fileKey: string; url: string }[]> {
+/**
+ * get url for all selected videos
+ * takes {id, s3Key, similarity}[] as input and returns {id, url, similarity}[]
+ */
+export async function mapVideoIdToUrl(
+  videos: VideoIdToS3Key[]
+): Promise<VideoIdToUrl[]> {
   try {
-    const downloadPromises = fileKeys.map(async (fileKey) => {
+    const downloadPromises = videos.map(async (video) => {
       try {
         const command = new GetObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: fileKey,
+          Key: video.s3Key,
         });
         const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-        return { fileKey, url };
+        return { id: video.id, url, similarity: video.similarity || 0 };
       } catch (error) {
-        console.error(`Error fetching file ${fileKey} from S3:`, error);
-        return { fileKey, url: `Error fetching file ${fileKey} from S3` };
+        console.error(`Error fetching file ${video} from S3:`, error);
+        return {
+          id: video.id,
+          url: `Error fetching file ${video} from S3`,
+          similarity: 0,
+        };
       }
     });
 

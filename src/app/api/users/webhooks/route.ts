@@ -1,8 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser, updateUser } from "@/db/mutations";
-import { getUser } from "@/db/query";
+import { createUser, updateUser } from "@/db/mutations/users";
+import { getUser } from "@/db/queries/users";
 import { getTextEmbedding } from "@/lib/gemini";
 
 export async function POST(req: Request) {
