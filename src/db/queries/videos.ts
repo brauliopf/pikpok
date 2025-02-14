@@ -13,8 +13,7 @@ export async function getCustomVideos({
   limit: number;
   offset: number;
 }): Promise<{
-  data: (VideoIdToS3Key & { creator_id: string; creator_img: string })[];
-  timestamp: number;
+  data: VideoIdToS3Key[];
 }> {
   let sql_query = sql``;
   if (clerk_id) {
@@ -61,33 +60,7 @@ export async function getCustomVideos({
     })
   );
 
-  return { data: results, timestamp: Date.now() };
-}
-
-/**
- * select videos to display
- * takes limit and offset only and return array of dicts with 2 keys: id, s3Key
- * *** must handle customization!
- */
-export async function mapVideoIdToS3Key({
-  limit,
-  offset,
-}: {
-  limit: number;
-  offset: number;
-}): Promise<{
-  status: number;
-  data: VideoIdToS3Key[];
-  timestamp: number;
-}> {
-  // ref: https://orm.drizzle.team/docs/select
-  const result = await db
-    .select({ id: videos.id, s3Key: videos.s3Key })
-    .from(videos)
-    .orderBy(desc(videos.createdAt))
-    .limit(limit)
-    .offset(offset);
-  return { status: 200, data: result, timestamp: Date.now() };
+  return { data: results };
 }
 
 /**
