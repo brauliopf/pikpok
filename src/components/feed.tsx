@@ -17,7 +17,7 @@ const Feed: React.FC = () => {
   const [videos, setVideos] = useState<VideoIdToUrl[]>([]);
   const [userLikes, setUserLikes] = useState<SelectLikes[]>([]);
   const { ref, inView } = useInView();
-  const { user } = useUser();
+  const { isLoaded, user } = useUser();
 
   const loadCustomVideos = async () => {
     const { data }: { data: VideoIdToS3Key[] } = await getCustomVideos({
@@ -28,15 +28,18 @@ const Feed: React.FC = () => {
 
     // use videos s3Key to get url
     const s3Videos = await mapVideoIdToUrl(data);
+    console.log("LOGANDO", videos, s3Videos);
     setVideos((videos) => [...videos, ...s3Videos]);
     setOffset((offset) => offset + NUMBER_OF_VIDEOS_TO_FETCH);
   };
 
   useEffect(() => {
-    if (inView) {
-      loadCustomVideos();
+    if (isLoaded) {
+      if (inView) {
+        loadCustomVideos();
+      }
     }
-  }, [inView]);
+  }, [isLoaded, inView]);
 
   const loadUserLikes = async () => {
     if (!user) {
@@ -49,7 +52,7 @@ const Feed: React.FC = () => {
 
   useEffect(() => {
     loadUserLikes();
-  }, [videos]);
+  }, [user]);
 
   return (
     <div className="flex flex-col gap-4 flex-1 my-4 items-center">

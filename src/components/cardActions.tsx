@@ -22,6 +22,9 @@ export default function CardAction({
     <div className="flex flex-col gap-4">
       <button
         onClick={() => {
+          if (!user) {
+            return null;
+          }
           setLike(!like);
           toggleLike({ clerkId: user!.id, videoId });
         }}

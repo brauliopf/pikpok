@@ -1,8 +1,4 @@
 import Feed from "@/components/feed";
-import { getCustomVideos } from "@/db/queries/videos";
-import { mapVideoIdToUrl } from "@/lib/s3";
-
-const NUMBER_OF_VIDEOS_TO_FETCH = 2;
 
 export default async function landing() {
   return (

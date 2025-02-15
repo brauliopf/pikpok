@@ -24,3 +24,10 @@ export interface VideoIdToUrl {
 }
 
 export type SelectLikes = InferSelectModel<typeof likes>;
+
+export type VideoIDKey = {
+  id: string;
+  s3Key: string;
+  title: string;
+  status: string;
+};
