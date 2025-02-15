@@ -55,8 +55,8 @@ export async function mapVideoIdToUrl(
             creator_id: video.creator_id,
             error: `Error fetching file ${video} from S3`,
           } as VideoIdToUrl & {
-            creator_id: string;
-            creator_img: string;
+            creator_id?: string;
+            creator_img?: string;
             error?: string;
           };
         }
