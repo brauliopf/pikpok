@@ -41,6 +41,7 @@ export async function mapVideoIdToUrl(
 
           // replacing: use spread operator and an inverse destructruring
           const { s3Key, ...output } = video;
+          console.log("useless variable", s3Key);
           return {
             ...output,
             url: url,

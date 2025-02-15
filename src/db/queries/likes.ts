@@ -1,6 +1,5 @@
 import { db } from "..";
-import { likes, users } from "../schema";
-import { eq, sql, isNull } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { SelectLikes } from "@/types";
 
 export const getUserLikes = async ({
