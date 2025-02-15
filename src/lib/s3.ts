@@ -23,7 +23,7 @@ const s3Client = new S3Client({
  * replaces s3Key for url
  */
 export async function mapVideoIdToUrl(
-  videos: VideoIdToS3Key[]
+  videos: Partial<VideoIdToS3Key>[]
 ): Promise<VideoIdToUrl[]> {
   try {
     const downloadPromises: Promise<VideoIdToUrl>[] = videos.map(
