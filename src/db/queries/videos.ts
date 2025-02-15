@@ -1,8 +1,8 @@
 import { db } from "..";
 import { videos } from "../schema";
 import { desc, sql } from "drizzle-orm";
-import { VideoIDKey } from "@/types/video";
-import { VideoIdToS3Key } from "@/types/video";
+import { VideoIDKey } from "@/types";
+import { VideoIdToS3Key } from "@/types";
 
 export async function getCustomVideos({
   clerk_id,

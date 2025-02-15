@@ -1,3 +1,6 @@
+import { InferSelectModel } from "drizzle-orm";
+import { likes } from "@/db/schema";
+
 export interface VideoMetadata {
   summary?: string;
   topics?: string[];
@@ -11,6 +14,7 @@ export interface VideoIdToS3Key {
   creator_id: string;
   creator_img: string;
 }
+
 export interface VideoIdToUrl {
   id: string;
   url: string;
@@ -19,9 +23,4 @@ export interface VideoIdToUrl {
   creator_img: string;
 }
 
-export interface VideoIDKey {
-  id: string;
-  s3Key: string;
-  title: string;
-  status: string;
-}
+export type SelectLikes = InferSelectModel<typeof likes>;

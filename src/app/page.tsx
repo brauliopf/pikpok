@@ -1,6 +1,6 @@
 import Feed from "@/components/feed";
 
-const NUMBER_OF_VIDEOS_TO_FETCH = 1;
+const NUMBER_OF_VIDEOS_TO_FETCH = 2;
 
 export default async function feedPage() {
   return (

@@ -7,13 +7,15 @@ import { mapVideoIdToUrl } from "@/lib/s3";
 import { getCustomVideos } from "@/db/queries/videos";
 import { useInView } from "react-intersection-observer";
 import { useUser } from "@clerk/nextjs";
-import { VideoIdToS3Key, VideoIdToUrl } from "@/types/video";
+import { VideoIdToS3Key, VideoIdToUrl, SelectLikes } from "@/types";
+import { getUserLikes } from "@/db/queries/likes";
 
-const NUMBER_OF_VIDEOS_TO_FETCH = 3;
+const NUMBER_OF_VIDEOS_TO_FETCH = 2;
 
 const Feed: React.FC = () => {
   const [offset, setOffset] = useState(0);
   const [videos, setVideos] = useState<VideoIdToUrl[]>([]);
+  const [userLikes, setUserLikes] = useState<SelectLikes[]>([]);
   const { ref, inView } = useInView();
   const { user } = useUser();
 
@@ -36,6 +38,19 @@ const Feed: React.FC = () => {
     }
   }, [inView]);
 
+  const loadUserLikes = async () => {
+    if (!user) {
+      return null;
+    }
+
+    const response = await getUserLikes({ clerkId: user!.id });
+    setUserLikes(response);
+  };
+
+  useEffect(() => {
+    loadUserLikes();
+  }, [videos]);
+
   return (
     <div className="flex flex-col gap-4 flex-1 my-4 items-center">
       {Array.isArray(videos) &&
@@ -43,9 +58,12 @@ const Feed: React.FC = () => {
           return (
             <VideoCard
               url={videoIDToUrl.url}
-              creator_img={videoIDToUrl.creator_img}
-              video_id={videoIDToUrl.id}
-              key={videoIDToUrl.id}
+              creatorImg={videoIDToUrl.creator_img}
+              videoId={videoIDToUrl.id}
+              userLike={userLikes
+                .map((item) => item.videoId)
+                .includes(videoIDToUrl.id)}
+              key={videoIDToUrl.id + "_" + index}
             />
           );
         })}

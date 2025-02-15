@@ -1,14 +1,17 @@
+"use client";
+
 import CardActions from "./cardActions";
-import { VideoIdToUrl } from "@/types/video";
 
 export default function videoCard({
   url,
-  creator_img,
-  video_id,
+  creatorImg,
+  videoId,
+  userLike,
 }: {
   url: string;
-  creator_img: string;
-  video_id: string;
+  creatorImg: string;
+  videoId: string;
+  userLike: boolean;
 }) {
   return (
     <div className="flex flex-row">
@@ -21,10 +24,10 @@ export default function videoCard({
       </video>
       <div className="flex flex-col justify-end px-2 py-3 ml-4 mb-8 gap-4">
         <img
-          src={creator_img}
-          className="w-12 h-12 rounded-full bg-gray-300 p-0.5"
+          src={creatorImg}
+          className="w-10 h-10 rounded-full bg-gray-300 p-0.5"
         />
-        <CardActions video_id={video_id} />
+        <CardActions videoId={videoId} userLike={userLike} />
       </div>
     </div>
   );

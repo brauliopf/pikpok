@@ -1,6 +1,6 @@
 import { getVideos } from "@/db/queries/videos";
 import { generateVideoMetadata } from "../actions";
-import { VideoIDKey } from "@/types/video";
+import { VideoIDKey } from "@/types";
 
 export default async function Sandbox() {
   const videos = await getVideos({ limit: 10, offset: 0 });

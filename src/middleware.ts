@@ -4,18 +4,16 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const isWebhookRoute = createRouteMatcher(["/api/users/webhooks(.*)"]);
-
 const isPublicRoute = createRouteMatcher(["/landing"]);
-// TODO: add specific video URL to public routes
 const isFeedRoute = createRouteMatcher(["/"]);
-
 const isSandbox = createRouteMatcher(["/sandbox"]);
-
 const isVideoDetail = createRouteMatcher(["/video/(.+)"]);
 
 // Configure access to routes. Retrieve claims directly from the session and redirect user accordingly.
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { userId, sessionClaims } = await auth();
+  // userId: clerk_id
+  // sessionClaims: metadata + other data
 
   // let webhooks or sandbox pass
   if (isWebhookRoute(req) || isSandbox(req)) return NextResponse.next();

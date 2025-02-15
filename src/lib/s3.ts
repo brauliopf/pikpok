@@ -8,7 +8,7 @@ import {
 
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
-import { VideoIdToS3Key, VideoIdToUrl } from "@/types/video";
+import { VideoIdToS3Key, VideoIdToUrl } from "@/types";
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
