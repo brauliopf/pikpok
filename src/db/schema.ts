@@ -9,6 +9,18 @@ import {
   vector,
 } from "drizzle-orm/pg-core";
 
+export const likes = pgTable("likes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  revokedAt: timestamp("revoked_at"),
+  userId: uuid("user_id")
+    .references(() => users.id)
+    .notNull(),
+  videoId: uuid("video_id")
+    .references(() => videos.id)
+    .notNull(),
+});
+
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   createdAt: timestamp("created_at").defaultNow(),
@@ -20,6 +32,10 @@ export const users = pgTable("users", {
   age: integer("age"),
   genderMale: boolean("gender_male"),
   profileImageURL: text("profile_image_url"),
+  onboarded: boolean("onboarded").notNull().default(false),
+  videoDuration: text("videoDuration"),
+  topicsOfInterest: text("topics_of_interest").array(),
+  embeddings: vector("embeddings", { dimensions: 768 }).default([]),
 });
 
 export const videoStatusEnum = pgEnum("status", [

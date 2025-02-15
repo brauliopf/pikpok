@@ -1,7 +1,9 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/db/mutations";
+import { createUser, updateUser } from "@/db/mutations/users";
+import { getUser } from "@/db/queries/users";
+import { getTextEmbedding } from "@/lib/gemini";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -48,30 +50,80 @@ export async function POST(req: Request) {
     });
   }
 
+  async function getUserEmbedding(clerk_id: string) {
+    // get user object
+    const user = await getUser(clerk_id);
+    // build text summary
+    let profile = "" + user.data.age && `User is ${user.data.age}.`;
+    profile =
+      profile + user.data.country && `\nUser comes from ${user.data.country}`;
+    profile =
+      profile + user.data.topicsOfInterest &&
+      `\nUser is interested in ${user.data.topicsOfInterest?.join(", ")}`;
+
+    // get embeddings from an llm
+    console.log("GET USER EMBEDDINGS", profile);
+    const embeddings = getTextEmbedding(profile);
+
+    return embeddings;
+  }
+
   // Do something with payload
   /* Example Webhook payload: https://clerk.com/docs/webhooks/overview#payload-structure
    * body === evt.data stringfied
    */
-  // @ts-expect-error --this is necesary to work
-  const { id, first_name, last_name, profile_image_url, image_url } = evt.data;
-  // @ts-expect-error --this is necesary to work
-  const temp = evt.data.email_addresses;
-  const { email_address } = temp && temp[0];
   const eventType = evt.type;
-
-  let user;
   if (eventType == "user.created") {
-    user = await createUser({
-      clerk_id: id!,
-      email: email_address,
-      firstName: first_name,
-      lastName: last_name,
-      profileImageURL: profile_image_url || image_url,
-    });
-  }
+    const { id, first_name, last_name, image_url } = evt.data;
+    const primary_email_id = evt.data.primary_email_address_id;
+    const email_address = evt.data.email_addresses.find(
+      (value) => value.id == primary_email_id
+    )?.email_address;
 
-  if (user) {
-    console.log("USER CREATED", user.data);
+    // CREATE
+    const user = await createUser({
+      clerk_id: id!,
+      email: email_address!,
+      firstName: first_name || "",
+      lastName: last_name,
+      profileImageURL: image_url,
+    });
+    if (user) {
+      console.log("USER CREATED", user.data);
+    }
+    // UPDATE
+  } else if (eventType == "user.updated") {
+    const { id: clerk_id, first_name, last_name, image_url } = evt.data;
+    const primary_email_id = evt.data.primary_email_address_id;
+    const email_address = evt.data.email_addresses.find(
+      (value) => value.id == primary_email_id
+    )?.email_address;
+
+    // --metadata
+    const onboarded = evt.data.public_metadata.onboarded;
+    const videoDuration = evt.data.public_metadata.videoDuration;
+    const topicsOfInterest = evt.data.public_metadata.topicsOfInterest;
+
+    const embeddings = await getUserEmbedding(clerk_id);
+
+    const user = await updateUser({
+      clerk_id: clerk_id!,
+      email: email_address!,
+      firstName: first_name || "",
+      lastName: last_name,
+      profileImageURL: image_url,
+      // @ts-expect-error --ignore metadata types
+      onboarded: onboarded,
+      // @ts-expect-error --ignore metadata types
+      videoDuration: videoDuration,
+      // @ts-expect-error --ignore metadata types
+      topicsOfInterest: topicsOfInterest,
+      embeddings: embeddings,
+    });
+
+    if (user) {
+      console.log("USER UPDATED", user.data);
+    }
   }
 
   return new Response("Webhook received", { status: 200 });

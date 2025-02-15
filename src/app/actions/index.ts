@@ -2,8 +2,8 @@
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { generateMetadata, getTextEmbedding } from "@/lib/gemini";
-import { getFilesFromS3 } from "@/lib/s3";
-import { updateVideoMetadata } from "@/db/mutations";
+import { mapVideoIdToUrl } from "@/lib/s3";
+import { updateVideoMetadata } from "@/db/mutations/videos";
 
 export const completeOnboarding = async (formData: FormData) => {
   const client = await clerkClient();
@@ -39,7 +39,7 @@ export const generateVideoMetadata = async ({
   let summary = "";
   let interests = "";
   try {
-    const s3Videos = await getFilesFromS3([s3Key]);
+    const s3Videos = await mapVideoIdToUrl([{ id, s3Key }]);
     const content = (await generateMetadata(s3Videos[0].url)) || {};
     summary = content.summary;
     interests = content.interests;

@@ -8,6 +8,7 @@ import {
 
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
+import { VideoIdToS3Key, VideoIdToUrl } from "@/types";
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
@@ -17,26 +18,52 @@ const s3Client = new S3Client({
   },
 });
 
-export async function getFilesFromS3(
-  fileKeys: string[]
-): Promise<{ fileKey: string; url: string }[]> {
+/**
+ * get url for all selected videos
+ * replaces s3Key for url
+ */
+export async function mapVideoIdToUrl(
+  videos: VideoIdToS3Key[]
+): Promise<VideoIdToUrl[]> {
   try {
-    const downloadPromises = fileKeys.map(async (fileKey) => {
-      try {
-        const command = new GetObjectCommand({
-          Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: fileKey,
-        });
-        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-        return { fileKey, url };
-      } catch (error) {
-        console.error(`Error fetching file ${fileKey} from S3:`, error);
-        return { fileKey, url: `Error fetching file ${fileKey} from S3` };
+    const downloadPromises: Promise<VideoIdToUrl>[] = videos.map(
+      // callback function to get url and replace s3Key with url
+      async (video) => {
+        try {
+          // get url
+          const command = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: video.s3Key,
+          });
+          const url = await getSignedUrl(s3Client, command, {
+            expiresIn: 3600,
+          });
+
+          // replacing: use spread operator and an inverse destructruring
+          const { s3Key, ...output } = video;
+          console.log("useless variable", s3Key);
+          return {
+            ...output,
+            url: url,
+          } as VideoIdToUrl;
+        } catch (error) {
+          console.error(`Error fetching file ${video} from S3:`, error);
+          return {
+            id: video.id,
+            url: "",
+            similarity: 0,
+            creator_id: video.creator_id,
+            error: `Error fetching file ${video} from S3`,
+          } as VideoIdToUrl & {
+            creator_id: string;
+            creator_img: string;
+            error?: string;
+          };
+        }
       }
-    });
+    );
 
     const results = await Promise.all(downloadPromises);
-
     return results;
   } catch (error) {
     console.error("Error in batch download operation:", error);

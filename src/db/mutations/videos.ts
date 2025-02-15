@@ -1,22 +1,10 @@
-import { db } from ".";
-import { users, videos } from "./schema";
+import { db } from "..";
+import { users, videos } from "../schema";
 import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 
-type SelectUser = InferSelectModel<typeof users>;
-type InsertUser = InferInsertModel<typeof users>;
-
 type SelectVideo = InferSelectModel<typeof videos>;
 type InsertVideo = InferInsertModel<typeof videos>;
-
-export async function createUser(data: InsertUser): Promise<{
-  status: number;
-  data: SelectUser;
-}> {
-  const result = await db.insert(users).values(data).returning().execute();
-  const newUser = result[0];
-  return { status: 200, data: newUser };
-}
 
 type VideoWithoutUserId = Omit<InsertVideo, "userId"> & { clerkId: string };
 
