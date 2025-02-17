@@ -16,7 +16,8 @@ export async function createVideo(data: VideoWithoutUserId): Promise<{
   const query_res = await db
     .select({ id: users.id })
     .from(users)
-    .where(eq(users.clerk_id, data.clerkId));
+    .where(eq(users.clerk_id, data.clerkId))
+    .execute();
   const upUser = query_res[0];
 
   // insert video passing the user real id

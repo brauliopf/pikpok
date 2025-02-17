@@ -5,13 +5,14 @@ import { SelectLikes } from "@/types";
 export const getUserLikes = async ({
   clerkId,
 }: {
-  clerkId: string;
+  clerkId?: string;
 }): Promise<SelectLikes[]> => {
   const sql_query = sql`
         WITH user_info AS (
           SELECT id 
           FROM users 
-          WHERE clerk_id = ${clerkId}
+          WHERE
+           clerk_id = ${clerkId}
         )
         SELECT
           *
