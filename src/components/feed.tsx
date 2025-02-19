@@ -25,7 +25,6 @@ const Feed: React.FC = () => {
     // swap s3Key for url
     const s3Videos = await mapVideoIdToUrl(recs);
 
-    console.log("mapVideoIdToUrl", videos, s3Videos);
     setVideos((videos) => [...videos, ...s3Videos]);
   };
 

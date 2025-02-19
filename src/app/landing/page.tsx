@@ -6,11 +6,7 @@ export default async function landing() {
       <main className="flex flex-1 flex-row gap-20 items-center mx-[10%]">
         <div className="fixed">
           <span>TikTok-style welcome page.</span>
-          <ul>
-            <li>item</li>
-            <li>item</li>
-            <li>item</li>
-          </ul>
+          <ul></ul>
         </div>
         <div className="flex-grow"></div>
         <div className="h-screen">

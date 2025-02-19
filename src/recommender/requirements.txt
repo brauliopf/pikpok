@@ -4,3 +4,4 @@ psycopg2
 upstash_redis
 scikit_learn
 apscheduler
+python-dotenv
