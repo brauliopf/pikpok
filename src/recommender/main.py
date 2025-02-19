@@ -5,6 +5,8 @@ import math
 import numpy as np
 import pandas as pd
 import psycopg2
+from fastapi import FastAPI
+import uvicorn
 from upstash_redis import Redis
 from apscheduler.schedulers.blocking import BlockingScheduler
 from sklearn.metrics.pairwise import cosine_similarity
@@ -231,34 +233,27 @@ def store_recommendations_in_redis(user_id, recs):
     print(f"[DEBUG] Stored recommendations for user {user_id} in Redis under key '{key}'.")
 
 # ----------------------------------------------------------------
-# 9️⃣ Schedule Recommendation Generation
+# Main Execution
 # ----------------------------------------------------------------
 
-def generate_recommendations():
-    # simple recommendartion system: based on similarity between user profile and video auto-generated description
-    # get similarity scores
-    map_user_scores = generate_recommendations_from_profile()
-    # save scores to redis
-    for user_id, video_scores in map_user_scores.items():
-        store_recommendations_in_redis(user_id, video_scores)
+app = FastAPI()
 
-def schedule_recommendations():
-    """
-    Schedule the recommendation generation to run every 5 minutes.
-    """
-    scheduler = BlockingScheduler()
-    scheduler.add_job(generate_recommendations, 'interval', minutes=3)
-    print("[SCHEDULER] Starting job every 3 minutes. Press Ctrl+C to exit.")
+@app.get("/recommendations")
+def generate_recommendations() -> None:
     try:
-        scheduler.start()
-    except (KeyboardInterrupt, SystemExit):
-        pass
-
-# ----------------------------------------------------------------
-# 🔟 Main Execution
-# ----------------------------------------------------------------
+        # simple recommendartion system: based on similarity between user profile and video auto-generated description
+        # get similarity scores
+        map_user_scores = generate_recommendations_from_profile()
+        # save scores to redis
+        for user_id, video_scores in map_user_scores.items():
+            store_recommendations_in_redis(user_id, video_scores)
+    except:
+        print("Failed to gennerate recommendations")
+        return 
+    finally:
+        cursor.close()
+        conn.close()
+    pass        
 
 if __name__ == "__main__":
-    schedule_recommendations()
-    cursor.close()
-    conn.close()
+    uvicorn.run("main:app", host="0.0.0.0", port=5000, log_level="info")
