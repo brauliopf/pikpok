@@ -112,19 +112,21 @@ export async function getCustomVideos({
   return { data: results };
 }
 
-export async function getVideosGuest(): Promise<VideoIDKey[]> {
+export async function getVideosGuest(): Promise<VideoIdToS3Key[]> {
   // ref: https://orm.drizzle.team/docs/select
   const result = await db
     .select({
       id: videos.id,
-      s3Key: videos.s3Key,
+      s3_key: videos.s3Key,
       title: videos.title,
       status: videos.status,
+      creator_id: videos.userId,
+      creator_img: videos.userId,
     })
     .from(videos)
     .orderBy(desc(videos.createdAt))
     .limit(40);
-  return result;
+  return result as VideoIdToS3Key[];
 }
 
 /**

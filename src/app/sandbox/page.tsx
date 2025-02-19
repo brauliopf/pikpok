@@ -15,10 +15,10 @@ export default async function Sandbox() {
 
     const video: VideoIDKey = JSON.parse(videoString);
     const id = video.id;
-    const s3Key = video.s3Key;
+    const s3_key = video.s3Key;
 
     try {
-      await generateVideoMetadata({ id, s3Key });
+      await generateVideoMetadata({ id, s3_key });
     } catch (e) {
       console.error("Failed to generate video metadata", e);
       throw new Error(`Failed to generate video metadata: ${e}`);
