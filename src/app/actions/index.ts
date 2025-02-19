@@ -31,17 +31,17 @@ export const completeOnboarding = async (formData: FormData) => {
 
 export const generateVideoMetadata = async ({
   id,
-  s3Key,
+  s3_key,
 }: {
   id: string;
-  s3Key: string;
+  s3_key: string;
 }) => {
-  console.log("generateVideoMetadata:", s3Key);
+  console.log("generateVideoMetadata:", s3_key);
   // get video summary
   let summary = "";
   let interests = "";
   try {
-    const s3Videos = await mapVideoIdToUrl([{ id, s3Key }]);
+    const s3Videos = await mapVideoIdToUrl([{ id, s3_key }]);
     const content = (await generateMetadata(s3Videos[0].url)) || {};
     summary = content.summary;
     interests = content.interests;
