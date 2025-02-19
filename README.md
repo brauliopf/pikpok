@@ -1,7 +1,7 @@
 ## Roadmap
 
-- Add tracking of interactions (like and watch)
 - Deploy recommender cron task to create recommendations on Redis
+- Add tracking of interactions (like and watch)
 - Add collaborative filtering for interaction-based recommendations
 - Add SWR to load feed
 - Adapt UI to allow view one video at a time only (use mouse and keyboard to scroll)
