@@ -4,12 +4,8 @@
 import { Redis } from "@upstash/redis";
 
 export const redis = new Redis({
-  url:
-    process.env.UPSTASH_REDIS_URL ||
-    "https://adapting-escargot-11107.upstash.io",
-  token:
-    process.env.UPSTASH_REDIS_TOKEN ||
-    "AStjAAIjcDFhOTEzNTM3MmQ1MzE0ZDE0YWE1NmE1NjJmMDMzMTY1MXAxMA",
+  url: process.env.UPSTASH_REDIS_URL,
+  token: process.env.UPSTASH_REDIS_TOKEN,
 });
 
 // STRING OBJ TYPES
