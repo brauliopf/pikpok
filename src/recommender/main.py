@@ -246,8 +246,8 @@ def generate_recommendations() -> None:
         # save scores to redis
         for user_id, video_scores in map_user_scores.items():
             store_recommendations_in_redis(user_id, video_scores)
-    except:
-        print("Failed to gennerate recommendations")
+    except Exception as e:
+        print("Failed to gennerate recommendations: {e}")  # Print the error message
     pass        
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
 import VideoUploadForm from "./videoUploadForm";
 import { useUser } from "@clerk/nextjs";
+import { updateRecommendations } from "@/app/actions";
 
 export default function AppSidebar() {
   const { user } = useUser();
@@ -98,6 +99,16 @@ export default function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <button
+              onClick={updateRecommendations}
+              className="flex justify-center hover:bg-zinc-200"
+            >
+              Up Recs
+            </button>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
       </SidebarContent>
     </Sidebar>
   );

@@ -80,3 +80,9 @@ export const queryRedisDB = async (
     | null;
   return response;
 };
+
+export const updateRecommendations = async () => {
+  fetch("https://pikpok-recommender-system.onrender.com/recommendations").then(
+    () => console.log("request sent")
+  );
+};
