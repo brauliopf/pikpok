@@ -39,9 +39,9 @@ export async function mapVideoIdToUrl(
             expiresIn: 3600,
           });
 
-          // @ts-ignore --replacing: use spread operator and an inverse destructruring
-          // console.log("logging", s3_key, url);
           const { s3_key, ...output } = video;
+          console.log(s3_key);
+
           return {
             ...output,
             url: url,

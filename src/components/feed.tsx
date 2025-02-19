@@ -18,8 +18,6 @@ const Feed: React.FC = () => {
 
   const loadCustomVideos = async () => {
     let recs = await getRecommendedVideos((user && user.id) || "");
-    let guest_recs: VideoIDKey[] = [];
-    // console.log("loadCustomVideos:recs", recs);
     if (!recs) {
       recs = await getVideosGuest();
     }
