@@ -7,7 +7,7 @@ import { mapVideoIdToUrl } from "@/lib/s3";
 import { getRecommendedVideos, getVideosGuest } from "@/db/queries/videos";
 import { useInView } from "react-intersection-observer";
 import { useUser } from "@clerk/nextjs";
-import { VideoIDKey, VideoIdToUrl, SelectLikes } from "@/types";
+import { VideoIdToUrl, SelectLikes } from "@/types";
 import { getUserLikes } from "@/db/queries/likes";
 
 const Feed: React.FC = () => {

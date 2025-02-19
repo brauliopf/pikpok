@@ -21,7 +21,7 @@ export async function getRecommendedFromRedis(
 
 export async function getRecommendedVideos(
   clerk_id: string | null
-): Promise<any> {
+): Promise<VideoIdToS3Key[]> {
   const recs = await getRecommendedFromRedis(clerk_id);
 
   const sql_query = sql`
@@ -43,13 +43,14 @@ export async function getRecommendedVideos(
   };
 
   const recommended = sql_result.rows.map((row) => ({
-    ...row,
+    id: row.id as string,
+    s3_key: row.s3_key as string,
+    creator_id: row.user_id as string,
+    creator_img: row.profile_image_url as string,
     score: getScoreFromVideoId(recs!, row.id as string),
   }));
 
-  const ranked_recs = recommended.sort((a, b) => b.score! - a.score!);
-
-  return ranked_recs;
+  return recommended.sort((a, b) => (b.score || 0) - (a.score || 0));
 }
 
 export async function getCustomVideos({
