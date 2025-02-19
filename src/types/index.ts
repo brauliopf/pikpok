@@ -9,7 +9,7 @@ export interface VideoMetadata {
 
 export interface VideoIdToS3Key {
   id: string;
-  s3Key: string;
+  s3_key: string;
   similarity?: number;
   creator_id: string;
   creator_img: string;

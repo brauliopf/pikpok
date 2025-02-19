@@ -4,6 +4,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { generateMetadata, getTextEmbedding } from "@/lib/gemini";
 import { mapVideoIdToUrl } from "@/lib/s3";
 import { updateVideoMetadata } from "@/db/mutations/videos";
+import { Redis } from "@upstash/redis";
 
 export const completeOnboarding = async (formData: FormData) => {
   const client = await clerkClient();
@@ -35,6 +36,7 @@ export const generateVideoMetadata = async ({
   id: string;
   s3Key: string;
 }) => {
+  console.log("generateVideoMetadata:", s3Key);
   // get video summary
   let summary = "";
   let interests = "";
@@ -60,4 +62,21 @@ export const generateVideoMetadata = async ({
     interests: Array.isArray(interests) ? interests : [interests],
     embeddings: textEmbeddings,
   });
+};
+
+export const queryRedisDB = async (
+  key: string
+): Promise<{ video_id: string; score: number }[] | null> => {
+  const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_URL,
+    token: process.env.UPSTASH_REDIS_TOKEN,
+  });
+
+  const response = (await redis.get(key)) as
+    | {
+        video_id: string;
+        score: number;
+      }[]
+    | null;
+  return response;
 };

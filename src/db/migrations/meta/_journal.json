@@ -64,6 +64,13 @@
       "when": 1739506469763,
       "tag": "0008_massive_the_fallen",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1739827374072,
+      "tag": "0009_far_weapon_omega",
+      "breakpoints": true
     }
   ]
 }

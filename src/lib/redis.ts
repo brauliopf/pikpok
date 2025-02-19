@@ -1,13 +1,15 @@
+"use server";
 // reference: https://upstash.com/docs/redis/sdks/ts/overview
-
-// Use one queue for each status and have he status as key value
-// Add to the right (rpush) and take next from the left (lpop)
 
 import { Redis } from "@upstash/redis";
 
 export const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL!,
-  token: process.env.UPSTASH_REDIS_TOKEN!,
+  url:
+    process.env.UPSTASH_REDIS_URL ||
+    "https://adapting-escargot-11107.upstash.io",
+  token:
+    process.env.UPSTASH_REDIS_TOKEN ||
+    "AStjAAIjcDFhOTEzNTM3MmQ1MzE0ZDE0YWE1NmE1NjJmMDMzMTY1MXAxMA",
 });
 
 // STRING OBJ TYPES

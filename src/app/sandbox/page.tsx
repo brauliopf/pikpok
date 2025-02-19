@@ -7,7 +7,7 @@ export default async function Sandbox() {
 
   const testAction = async (formData: FormData) => {
     "use server";
-    const videoString = formData.get("video"); // id, s3Key, title, status
+    const videoString = formData.get("video"); // JSON.stringify(video) --id, s3Key, title, status
 
     if (typeof videoString !== "string") {
       throw new Error("No video JSON data found in FormData");

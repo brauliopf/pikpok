@@ -33,15 +33,15 @@ export async function mapVideoIdToUrl(
           // get url
           const command = new GetObjectCommand({
             Bucket: process.env.AWS_BUCKET_NAME!,
-            Key: video.s3Key,
+            Key: video.s3_key,
           });
           const url = await getSignedUrl(s3Client, command, {
             expiresIn: 3600,
           });
 
-          // replacing: use spread operator and an inverse destructruring
-          const { s3Key, ...output } = video;
-          console.log("logging", s3Key);
+          // @ts-ignore --replacing: use spread operator and an inverse destructruring
+          // console.log("logging", s3_key, url);
+          const { s3_key, ...output } = video;
           return {
             ...output,
             url: url,

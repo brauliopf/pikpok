@@ -48,6 +48,7 @@ export const videoStatusEnum = pgEnum("status", [
 
 export const videos = pgTable("videos", {
   id: uuid("id").defaultRandom().primaryKey(),
+  url: text("url"),
   s3Key: text("s3_key").notNull(),
   title: text("title").notNull(),
   status: videoStatusEnum().default("created").notNull(),

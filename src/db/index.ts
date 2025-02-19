@@ -5,6 +5,7 @@ import { config } from "dotenv";
 config({ path: ".env.local" });
 
 const sql = neon(
+  // TODO: remove this password from here
   process.env.DATABASE_URL ||
     "postgres://neondb_owner:npg_KDYQibL2dWA3@ep-royal-bird-a48qn7t8-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
 );

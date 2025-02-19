@@ -69,6 +69,7 @@ def generate_recommendations_from_profile():
   user_ids =  cursor.fetchall()
 
   # get all video embeddings
+  # TODO: handle no user logged in (guest)
   # TODO: handle video embeddings is NULL
   cursor.execute("SELECT id, embeddings FROM videos WHERE embeddings IS NOT NULL")
   videos_embedding = cursor.fetchall() # (#videos, #embeddings + 1)

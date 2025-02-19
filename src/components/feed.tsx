@@ -4,33 +4,31 @@ import React from "react";
 import { useState, useEffect } from "react";
 import VideoCard from "./videoCard";
 import { mapVideoIdToUrl } from "@/lib/s3";
-import { getCustomVideos } from "@/db/queries/videos";
+import { getRecommendedVideos, getVideosGuest } from "@/db/queries/videos";
 import { useInView } from "react-intersection-observer";
 import { useUser } from "@clerk/nextjs";
-import { VideoIdToS3Key, VideoIdToUrl, SelectLikes } from "@/types";
+import { VideoIDKey, VideoIdToUrl, SelectLikes } from "@/types";
 import { getUserLikes } from "@/db/queries/likes";
 
-const NUMBER_OF_VIDEOS_TO_FETCH = 2;
-
 const Feed: React.FC = () => {
-  const [offset, setOffset] = useState(0);
   const [videos, setVideos] = useState<VideoIdToUrl[]>([]);
   const [userLikes, setUserLikes] = useState<SelectLikes[]>([]);
   const { ref, inView } = useInView();
   const { isLoaded, user } = useUser();
 
   const loadCustomVideos = async () => {
-    const { data }: { data: VideoIdToS3Key[] } = await getCustomVideos({
-      clerk_id: (user && user.id) || "",
-      offset,
-      limit: NUMBER_OF_VIDEOS_TO_FETCH,
-    });
+    let recs = await getRecommendedVideos((user && user.id) || "");
+    let guest_recs: VideoIDKey[] = [];
+    // console.log("loadCustomVideos:recs", recs);
+    if (!recs) {
+      recs = await getVideosGuest();
+    }
 
-    // use videos s3Key to get url
-    const s3Videos = await mapVideoIdToUrl(data);
-    console.log("LOGANDO", videos, s3Videos);
+    // swap s3Key for url
+    const s3Videos = await mapVideoIdToUrl(recs);
+
+    console.log("mapVideoIdToUrl", videos, s3Videos);
     setVideos((videos) => [...videos, ...s3Videos]);
-    setOffset((offset) => offset + NUMBER_OF_VIDEOS_TO_FETCH);
   };
 
   useEffect(() => {
@@ -39,7 +37,7 @@ const Feed: React.FC = () => {
         loadCustomVideos();
       }
     }
-  }, [isLoaded, inView]);
+  }, [isLoaded]);
 
   const loadUserLikes = async () => {
     if (!user) {
