@@ -248,10 +248,6 @@ def generate_recommendations() -> None:
             store_recommendations_in_redis(user_id, video_scores)
     except:
         print("Failed to gennerate recommendations")
-        return 
-    finally:
-        cursor.close()
-        conn.close()
     pass        
 
 if __name__ == "__main__":
