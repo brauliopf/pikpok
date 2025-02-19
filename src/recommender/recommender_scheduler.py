@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import psycopg2
 from upstash_redis import Redis
+from apscheduler.schedulers.blocking import BlockingScheduler
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load environment variables
@@ -241,11 +242,23 @@ def generate_recommendations():
     for user_id, video_scores in map_user_scores.items():
         store_recommendations_in_redis(user_id, video_scores)
 
+def schedule_recommendations():
+    """
+    Schedule the recommendation generation to run every 5 minutes.
+    """
+    scheduler = BlockingScheduler()
+    scheduler.add_job(generate_recommendations, 'interval', minutes=3)
+    print("[SCHEDULER] Starting job every 3 minutes. Press Ctrl+C to exit.")
+    try:
+        scheduler.start()
+    except (KeyboardInterrupt, SystemExit):
+        pass
+
 # ----------------------------------------------------------------
 # 🔟 Main Execution
 # ----------------------------------------------------------------
 
 if __name__ == "__main__":
-    generate_recommendations()
+    schedule_recommendations()
     cursor.close()
     conn.close()
