@@ -8,7 +8,6 @@ import psycopg2
 from fastapi import FastAPI
 import uvicorn
 from upstash_redis import Redis
-from apscheduler.schedulers.blocking import BlockingScheduler
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load environment variables
