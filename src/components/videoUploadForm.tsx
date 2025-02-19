@@ -60,7 +60,7 @@ const VideoUploadForm: React.FC = () => {
       // Create video metadata
       await generateVideoMetadata({
         id: video.data.id,
-        s3Key: video.data.s3Key,
+        s3_key: video.data.s3Key,
       });
 
       // Provide feedback
