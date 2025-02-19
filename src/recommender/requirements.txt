@@ -4,4 +4,6 @@ psycopg2
 upstash_redis
 scikit_learn
 apscheduler
+fastapi
+uvicorn
 python-dotenv

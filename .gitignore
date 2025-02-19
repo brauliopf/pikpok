@@ -1,5 +1,7 @@
+videos
 peer
 env
+.venv
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 s3_config
