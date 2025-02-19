@@ -54,12 +54,11 @@ export async function POST(req: Request) {
     // get user object
     const user = await getUser(clerk_id);
     // build text summary
-    let profile = "" + user.data.age && `User is ${user.data.age}.`;
+    let profile = "" + user.age && `User is ${user.age}.`;
+    profile = profile + user.country && `\nUser comes from ${user.country}`;
     profile =
-      profile + user.data.country && `\nUser comes from ${user.data.country}`;
-    profile =
-      profile + user.data.topicsOfInterest &&
-      `\nUser is interested in ${user.data.topicsOfInterest?.join(", ")}`;
+      profile + user.topicsOfInterest &&
+      `\nUser is interested in ${user.topicsOfInterest?.join(", ")}`;
 
     // get embeddings from an llm
     console.log("GET USER EMBEDDINGS", profile);

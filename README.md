@@ -10,3 +10,4 @@
 - Improve upload form UI
 - Add infinite scrolling
 - Handle null video embedding
+- Use clerk_id as user.id
