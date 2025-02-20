@@ -28,7 +28,7 @@ export default function AppSidebar() {
   const { user } = useUser();
 
   return (
-    <Sidebar className="w-50">
+    <Sidebar className="w-16">
       <SidebarContent className="flex v-full">
         <SidebarGroup>
           <h2 className="bold">PicPoc</h2>

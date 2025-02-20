@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="flex flex-wrap gap-6 rounded-lg px-8 border-2 h-10 fixed bottom-0 right-10 bg-white">
+    <footer className="hidden md:flex flex-wrap gap-6 rounded-lg px-8 border-2 h-10 fixed bottom-0 right-10 bg-white">
       <a
         className="flex items-center gap-2 hover:underline hover:underline-offset-4"
         href="https://www.linkedin.com/in/brauliopf/"
@@ -24,9 +24,9 @@ export default function Footer() {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="lucide lucide-mail"
         >
           <rect width="20" height="16" x="2" y="4" rx="2" />
