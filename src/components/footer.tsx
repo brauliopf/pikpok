@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 export default function Footer() {
   return (
     <footer className="flex flex-wrap gap-6 rounded-lg px-8 border-2 h-10 fixed bottom-0 right-10 bg-white">
