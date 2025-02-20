@@ -32,6 +32,9 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <header className="w-full bg-white"></header>
             <div className="flex w-full">
+              <SidebarProvider>
+                <AppSidebar />
+              </SidebarProvider>
               <main className="w-full">{children}</main>
               <div className="md:hidden w-full flex flex-row rounded-lg border-2 py-2 fixed bottom-0 bg-gray-50 gap-8">
                 <h2 className="bold px-4 mr-4 border-r-2 fixed border-gray-300">
@@ -88,9 +91,6 @@ export default function RootLayout({
                   </ul>
                 </SignedIn>
               </div>
-              <SidebarProvider>
-                <AppSidebar />
-              </SidebarProvider>
               <Toaster />
             </div>
             <Footer />
