@@ -34,7 +34,7 @@ const Feed: React.FC = () => {
         loadCustomVideos();
       }
     }
-  }, [isLoaded, videos]);
+  }, [isLoaded]);
 
   const loadUserLikes = async () => {
     if (!user) {

@@ -22,7 +22,6 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Home, LogIn, CloudUpload } from "lucide-react"; // https://lucide.dev/icons/
 import VideoUploadForm from "./videoUploadForm";
 import { useUser } from "@clerk/nextjs";
-import { updateRecommendations } from "@/app/actions";
 
 export default function AppSidebar() {
   const { user } = useUser();

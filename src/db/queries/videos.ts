@@ -13,7 +13,8 @@ export async function getRecommendedFromRedis(
   if (clerk_id) {
     user = await getUser(clerk_id);
     recs = await queryRedisDB(`recommendations:${user.id}`);
-  } else {
+  }
+  if (!recs) {
     recs = await queryRedisDB(`recommendations:guest`);
   }
   return recs;
