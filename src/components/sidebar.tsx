@@ -99,16 +99,6 @@ export default function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <button
-              onClick={updateRecommendations}
-              className="flex justify-center hover:bg-zinc-200"
-            >
-              Up Recs
-            </button>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarContent>
     </Sidebar>
   );

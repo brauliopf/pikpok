@@ -82,7 +82,12 @@ export const queryRedisDB = async (
 };
 
 export const updateRecommendations = async () => {
-  fetch("https://pikpok-recommender-system.onrender.com/recommendations").then(
-    () => console.log("request sent")
-  );
+  let status = 0;
+  const response = fetch(
+    "https://pikpok-recommender-system.onrender.com/recommendations"
+  ).then((response) => {
+    status = response.status;
+    console.log("Response:", response);
+  });
+  return response;
 };

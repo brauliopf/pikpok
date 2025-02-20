@@ -7,6 +7,7 @@ import { uploadVideoToS3 } from "../lib/s3";
 import { useToast } from "@/hooks/use-toast";
 import { createVideo } from "@/db/mutations/videos";
 import { generateVideoMetadata } from "@/app/actions";
+import { updateRecommendations } from "@/app/actions";
 
 const VideoUploadForm: React.FC = () => {
   const { user } = useUser();
@@ -58,10 +59,10 @@ const VideoUploadForm: React.FC = () => {
       });
 
       // Create video metadata
-      await generateVideoMetadata({
+      generateVideoMetadata({
         id: video.data.id,
         s3_key: video.data.s3Key,
-      });
+      }).then(() => updateRecommendations());
 
       // Provide feedback
       if (response.success) {

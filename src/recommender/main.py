@@ -83,7 +83,7 @@ def generate_recommendations_from_profile():
       map_video_scores = get_similarity_scores(user_embedding, videos_embedding)
       # rank scores
       ranked_scores = sorted(map_video_scores, key = lambda x: x[1], reverse=True)
-      # returned ranked list
+      # return ranked list
       map_user_ranked_similarities[user_id] = ranked_scores
 
       print(f"Similarity scores for user {user_id}: {[f'{tup[1]:.2f}' for tup in map_user_ranked_similarities[user_id]]}")
@@ -237,7 +237,7 @@ def store_recommendations_in_redis(user_id, recs):
 
 app = FastAPI()
 
-@app.get("/recommendations")
+@app.get("/recommendations", status_code=201)
 def generate_recommendations() -> None:
     try:
         # simple recommendartion system: based on similarity between user profile and video auto-generated description
@@ -247,8 +247,8 @@ def generate_recommendations() -> None:
         for user_id, video_scores in map_user_scores.items():
             store_recommendations_in_redis(user_id, video_scores)
     except Exception as e:
-        print("Failed to gennerate recommendations: {e}")  # Print the error message
-    pass        
+        print(f"Failed to generate recommendations: {e}")  # Print the error message
+    return {"status": 200, "data": len(map_user_scores)}        
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=5000, log_level="info")

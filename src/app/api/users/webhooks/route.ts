@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, updateUser } from "@/db/mutations/users";
 import { getUser } from "@/db/queries/users";
 import { getTextEmbedding } from "@/lib/gemini";
+import { updateRecommendations } from "@/app/actions";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -123,6 +124,8 @@ export async function POST(req: Request) {
     if (user) {
       console.log("USER UPDATED", user.data);
     }
+
+    updateRecommendations();
   }
 
   return new Response("Webhook received", { status: 200 });
