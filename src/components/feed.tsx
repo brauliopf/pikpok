@@ -29,12 +29,11 @@ const Feed: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("isLoaded", isLoaded);
     if (isLoaded) {
-      if (inView) {
-        loadCustomVideos();
-      }
+      loadCustomVideos();
     }
-  }, [isLoaded]);
+  }, [isLoaded, user]);
 
   const loadUserLikes = async () => {
     if (!user) {
