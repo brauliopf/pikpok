@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import VideoCard from "./videoCard";
 import { mapVideoIdToUrl } from "@/lib/s3";
 import { getRecommendedVideos, getVideosGuest } from "@/db/queries/videos";
-import { useInView } from "react-intersection-observer";
 import { useUser } from "@clerk/nextjs";
 import { VideoIdToUrl, SelectLikes } from "@/types";
 import { getUserLikes } from "@/db/queries/likes";
@@ -13,7 +12,6 @@ import { getUserLikes } from "@/db/queries/likes";
 const Feed: React.FC = () => {
   const [videos, setVideos] = useState<VideoIdToUrl[]>([]);
   const [userLikes, setUserLikes] = useState<SelectLikes[]>([]);
-  // const { ref, inView } = useInView();
   const { isLoaded, user } = useUser();
 
   const loadCustomVideos = async () => {
@@ -64,7 +62,6 @@ const Feed: React.FC = () => {
             />
           );
         })}
-      {/* <div ref={ref}>Loading...</div> */}
     </div>
   );
 };
