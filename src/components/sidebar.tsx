@@ -52,7 +52,7 @@ export default function AppSidebar() {
                 </SignedOut>
                 <SignedIn>
                   <SidebarMenuButton>
-                    <ul className="flex justify-center hover:none px-2">
+                    <ul className="flex justify-center hover:none">
                       <UserButton />
                     </ul>
                   </SidebarMenuButton>
