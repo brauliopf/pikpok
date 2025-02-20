@@ -47,7 +47,7 @@ const Feed: React.FC = () => {
   }, [user]);
 
   return (
-    <div id="feed" className="flex flex-col gap-4 flex-1 my-4 items-center">
+    <div id="feed" className="flex flex-col gap-4 flex-1 h-screen items-center">
       {Array.isArray(videos) &&
         videos.map((videoIDToUrl, index) => {
           return (
