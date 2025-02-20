@@ -13,7 +13,7 @@ import { getUserLikes } from "@/db/queries/likes";
 const Feed: React.FC = () => {
   const [videos, setVideos] = useState<VideoIdToUrl[]>([]);
   const [userLikes, setUserLikes] = useState<SelectLikes[]>([]);
-  const { ref, inView } = useInView();
+  // const { ref, inView } = useInView();
   const { isLoaded, user } = useUser();
 
   const loadCustomVideos = async () => {
@@ -64,7 +64,7 @@ const Feed: React.FC = () => {
             />
           );
         })}
-      <div ref={ref}>Loading...</div>
+      {/* <div ref={ref}>Loading...</div> */}
     </div>
   );
 };

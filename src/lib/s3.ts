@@ -40,7 +40,9 @@ export async function mapVideoIdToUrl(
           });
 
           const { s3_key, ...output } = video;
-          s3_key + ":IGNORE";
+          if (!s3_key) {
+            console.log("This video does not have an S3 key", video);
+          }
 
           return {
             ...output,
