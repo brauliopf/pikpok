@@ -55,7 +55,7 @@ const VideoUploadForm: React.FC = () => {
       const video = await createVideo({
         title: selectedFile.name || "untitled",
         s3Key: response?.filename || "default_s3Key",
-        clerkId: user!.id,
+        clerkId: user?.id || "",
       });
 
       // Create video metadata
@@ -129,10 +129,7 @@ const VideoUploadForm: React.FC = () => {
             : "––"}
         </p>
         <label htmlFor="notes">Notes:</label>
-        <textarea
-          id="notes"
-          placeholder="Add notes about the video..."
-        ></textarea>
+        <textarea id="notes" placeholder="Add notes about the video..." />
       </div>
     </div>
   );

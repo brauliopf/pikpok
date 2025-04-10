@@ -1,11 +1,12 @@
 import { VertexAI } from "@google-cloud/vertexai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { labels } from "./utils";
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 // initialize gemini and vertex ai sdk
 const path = "/tmp/gcp-key.json";
-fs.writeFileSync(path, process.env.GOOGLE_SERVICEACC_CREDENTIALS_JSON!);
+const credentials = process.env.GOOGLE_SERVICEACC_CREDENTIALS_JSON || "{}";
+fs.writeFileSync(path, credentials);
 process.env.GOOGLE_APPLICATION_CREDENTIALS = path;
 
 const vertexAI = new VertexAI({
@@ -16,11 +17,6 @@ const vertexAI = new VertexAI({
 });
 const generativeModel = vertexAI.getGenerativeModel({
   model: "gemini-1.5-flash-001",
-});
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const model = genAI.getGenerativeModel({
-  model: "text-embedding-004",
 });
 
 export async function generateMetadata(fileUrl: string) {
@@ -60,6 +56,11 @@ export async function generateMetadata(fileUrl: string) {
     throw new Error("Failed to generate content");
   }
 }
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const model = genAI.getGenerativeModel({
+  model: "text-embedding-004",
+});
 
 export async function getTextEmbedding(text: string) {
   try {
